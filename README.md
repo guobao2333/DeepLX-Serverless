@@ -68,8 +68,8 @@ curl --location 'https://YOUR-DOMAIN/translate' --header 'Content-Type: applicat
 尽管本项目是专为 serverless 适配的方案，但是也能使用自己提供服务器进行部署
 
 ``` bash
-git clone https://github.com/guobao/deeplx-serverless
-cd deeplx-serverless
+git clone https://github.com/guobao/DeepLX-Serverless
+cd DeepLX-Serverless
 npm install
 npm run start
 ```
