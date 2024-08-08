@@ -4,7 +4,7 @@
   "description": "DeepLX Free API for serverless",
   "main": "translate.js",
   "scripts": {
-    "start": "node api/server.js",
+    "start": "node api/index.js",
     "test": "node test.js"
   },
   "keywords": [
