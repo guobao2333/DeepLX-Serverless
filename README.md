@@ -8,23 +8,37 @@ DeepLX 免费翻译API**函数部署版**，与[原项目DeepLX](https://github.
 
 - 一双灵活的小手
 - 一个聪明的脑袋瓜
-- 一个云函数服务器
 - 安装nodejs
 
 ### Deploy | 部署
 
-使用任意支持云函数部署的服务器，比如可以使用vercel进行部署，不过由于时间关系，部署教程和一键部署会在后续完善。
+使用任意支持云函数部署的服务器，比如可以使用vercel进行部署，又或者其他能够使用nodejs的服务器。(几乎大多数服务器提供商都提供函数计算服务器)
+
+如果你拥有[vercel](https://vercel.com)账号的话，可以点击下方按钮一键部署到Vercel：  
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fguobao2333%2FDeepLX-Serverless%2Ftree%2Fmain)
+
+项目当前没有任何需要填写的变量值，但在后续可能会添加。
 
 #### 自托管
 
-尽管本项目是专为 serverless 适配的方案，但是也能使用自己提供服务器进行部署：
+尽管本项目是专为 serverless 适配的方案，但是也能使用自己的服务器进行部署：
 
-``` bash
+```bash
 git clone https://github.com/guobao/DeepLX-Serverless
 cd DeepLX-Serverless
 npm i
 npm run start
 ```
+
+<details>
+<summary>直接复制到命令行运行：点击展开</summary>
+
+```bash
+git clone https://github.com/guobao/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
+```
+</details>
+
+你可以运行`npm run test`用来测试翻译接口。
 
 ### How To Use | 如何使用
 
@@ -32,31 +46,31 @@ npm run start
 
 请求示例：
 
-``` bash
+```bash
 curl --location --request POST 'https://YOUR-DOMAIN/translate' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "text": "Hello, World!",
     "source_lang": "en",
-    "target_lang": "de"
+    "target_lang": "zh"
 }'
 ```
 
 <details>
 <summary>直接复制到命令行测试：点击展开</summary>
 
-``` bash
-curl --location 'https://YOUR-DOMAIN/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界", "source_lang": "zh", "target_lang": "en"}'
+```bash
+curl --location 'https://YOUR-DOMAIN/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
 ```
 </details>
 
-请修改`YOUR-DOMAIN`为你部署服务的域名，建议搭配浏览器插件沉浸式翻译一同使用。
+**请修改`YOUR-DOMAIN`为你部署服务的域名！！**
 
 -----------------
 
 响应示例：
 
-``` json
+```json
 {
   "code": 200,
   "message": "success",
@@ -67,7 +81,9 @@ curl --location 'https://YOUR-DOMAIN/translate' --header 'Content-Type: applicat
 }
 ```
 
-#### 沉浸式翻译设置
+部署完成后，建议搭配浏览器插件「沉浸式翻译」一同使用。
+
+## 沉浸式翻译设置
 
 1. 在浏览器上安装最新的 [沉浸式翻译](https://github.com/immersive-translate/immersive-translate/releases)。
 2. 点击左下角的 "开发者设置"。启用测试版实验功能。
