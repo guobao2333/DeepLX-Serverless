@@ -53,11 +53,11 @@ app.post('/translate', async (req, res) => {
 app.get('/', (req, res) => {
   res.json({
     code: 200,
-    message: "Welcome to the DeepL Free API. Please POST to /translate. Visit http://github.com/OwO-Network/DeepLX for more information."
+    message: "Welcome to the DeepL Free API. Please POST to '/translate'. Visit 'https://github.com/OwO-Network/DeepLX' and 'https://github.com/guobao/DeepLX-Serverless' for more information."
   });
 });
 
-// 启动服务器
+// 启动本地服务器
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
