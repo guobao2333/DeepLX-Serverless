@@ -30,13 +30,13 @@ app.post('/translate', async (req, res) => {
     console.log(`[LOG] ${new Date().toISOString()} | 200 | ${duration}ms | POST "translate"`);
 
     const responseData = {
-      alternatives: result.alternatives,
       code: 200,
       data: result.text, // 取第一个翻译结果
       id: Math.floor(Math.random() * 10000000000), // 生成一个随机 ID
       method: 'Free',
       source_lang,
       target_lang,
+      alternatives: result.alternatives
     };
 
     res.json(responseData);
