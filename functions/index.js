@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { translate } = require('../translate');
+const { translate } = require('./translate');
 
 const app = express();
 const PORT = 9000;
