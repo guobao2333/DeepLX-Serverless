@@ -1,15 +1,8 @@
-const translate = require('./translate');
+const { translate } = require('./translate');
 
-;(async () => {
+(async () => {
   // Example Call
-  console.log(await translate('你好，我是练习时长两年半的个人练习生', 'ZH', 'EN', true, true));
-  console.log(
-    await translate(
-      'Generate a cryptographically strong random string',
-      'EN',
-      'ZH',
-      true,
-      true
-    )
-  );
+  await translate('各位评委好，我是练习时长两年半的个人练习生，蔡徐坤', 'ZH', 'EN', 3, true);
+  console.log('\n');
+  await translate('鸡你太美，baby，鸡你实在是太美，baby', 'ZH', 'EN', 0, true)
 })()
