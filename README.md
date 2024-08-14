@@ -14,9 +14,8 @@ DeepLX 免费翻译API**函数部署版**，与[原项目DeepLX](https://github.
 
 使用任意支持云函数部署的服务器，比如可以使用vercel进行部署，又或者其他能够使用nodejs的服务器。(几乎大多数服务器提供商都提供函数计算服务器)
 
-如果你拥有[vercel](https://vercel.com)账号的话那就很简单了，因为你只需要点击下方按钮即可。
+如果你拥有[vercel](https://vercel.com)账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署到Vercel：
 
-一键部署到Vercel：
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fguobao2333%2FDeepLX-Serverless%2Ftree%2Fmain)
 
 项目当前没有任何需要填写的变量值，但在后续可能会添加。
@@ -54,15 +53,16 @@ curl --location --request POST 'https://YOUR-DOMAIN/translate' \
 --data-raw '{
     "text": "Hello, World!",
     "source_lang": "en",
-    "target_lang": "zh"
+    "target_lang": "zh",
+    "alternative_number": 3
 }'
 ```
 
 <details>
-<summary>直接复制到命令行测试：点击展开</summary>
+<summary>直接复制到命令行运行本地测试：点击展开</summary>
 
 ```bash
-curl --location 'https://YOUR-DOMAIN/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
+curl --location 'http://localhost:9000/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en", "alternative_number": 3}'
 ```
 </details>
 
@@ -77,8 +77,8 @@ curl --location 'https://YOUR-DOMAIN/translate' --header 'Content-Type: applicat
   "code": 200,
   "message": "success",
   "data": "Hello, world.",
-  "source_lang": "zh",
-  "target_lang": "en",
+  "source_lang": "en",
+  "target_lang": "zh",
   "alternatives": ["Hello, World.", "Hello, world!", "Hi, world."]
 }
 ```
