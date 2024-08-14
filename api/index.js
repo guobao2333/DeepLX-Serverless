@@ -4,6 +4,7 @@ const { translate } = require('../translate');
 
 const app = express();
 const PORT = 9000;
+const allowAlternative = true;
 
 app.use(bodyParser.json());
 
@@ -20,10 +21,11 @@ app.post('/translate', async (req, res) => {
     });
   }
 
-  const { text, source_lang = 'AUTO', target_lang = 'ZH' } = req.body;
+  if (!allowAlternative) alternative_number = 0;
+  const { text, source_lang, target_lang, alternative_number } = req.body;
 
   try {
-    const result = await translate(text, source_lang, target_lang);
+    const result = await translate(text, source_lang, target_lang, alternative_number);
     const duration = Date.now() - startTime; // 计算处理时间
     console.log(`[LOG] ${new Date().toISOString()} | 200 | ${duration}ms | POST "translate"`);
 
