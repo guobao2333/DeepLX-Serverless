@@ -37,20 +37,20 @@ async function translate(
   text,
   sourceLang = 'AUTO',
   targetLang = 'ZH',
-  numberAlternative = 0,
+  alternativeNumber = 0,
   printResult = false,
 ) {
   const iCount = getICount(text);
   const id = getRandomNumber();
 
-  numberAlternative = Math.max(Math.min(3, numberAlternative), 0);
+  alternativeNumber = Math.max(Math.min(3, alternativeNumber), 0);
 
   const postData = {
     jsonrpc: '2.0',
     method: 'LMT_handle_texts',
     id: id,
     params: {
-      texts: [{ text: text, requestAlternatives: numberAlternative }],
+      texts: [{ text: text, requestAlternatives: alternativeNumber }],
       splitting: 'newlines',
       lang: {
         source_lang_user_selected: sourceLang.toUpperCase(),
@@ -84,7 +84,10 @@ async function translate(
       return;
     }
 
-    const result = response.data.result.texts[0]
+    const result = {
+      text: response.data.result.texts[0].text,
+      alternatives: response.data.result.texts[0].alternatives.map(alternative => alternative.text)
+    };
     if (printResult) {
       console.log(result);
     }
