@@ -4,7 +4,7 @@
   ],
   "functions": {
     "functions/*.js": {
-      "runtime": "nodejs" 
+      "runtime": "nodejs@>=16.13" 
     }
   }
 }
