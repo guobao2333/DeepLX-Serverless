@@ -1,3 +1,3 @@
 [build]
   command = "npm install"
-  edge_functions = "functions"
+  #edge_functions = "functions"

@@ -2,10 +2,10 @@
   "name": "deeplx-serverless",
   "version": "1.0.0",
   "description": "DeepLX Free API for serverless",
-  "main": "functions/translate.js",
+  "main": "translate.js",
   "scripts": {
-    "start": "node functions/index.js",
-    "test": "node functions/test.js"
+    "start": "node api/index.js",
+    "test": "node test.js"
   },
   "keywords": [
     "deeplx",

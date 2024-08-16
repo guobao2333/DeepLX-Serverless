@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { translate } = require('./translate');
+const { translate } = require('../translate');
 
 const app = express();
 const PORT = 9000;
@@ -21,6 +21,7 @@ app.post('/translate', async (req, res) => {
     });
   }
 
+  // 判断是否备选翻译
   if (!allowAlternative) alternative_number = 0;
   const { text, source_lang, target_lang, alternative_number } = req.body;
 
@@ -51,7 +52,6 @@ app.post('/translate', async (req, res) => {
   }
 });
 
-// 
 app.get('/', (req, res) => {
   res.json({
     code: 200,
