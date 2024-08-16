@@ -1,7 +1,7 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/functions/index.js" }
-  ]
+  ],
   "functions": {
     "functions/*.js": {
       "runtime": "nodejs" 
