@@ -1,6 +1,6 @@
 # DeepLX Serverless
 
-DeepLX 免费翻译API**函数部署版**，与[原项目DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了云函数的请求IP不固定的特性，极大程度上避免了`429`请求太频繁报错**
+DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(也叫边缘函数)的请求IP不固定的特性，极大程度上避免了`429`请求太频繁报错**
 
 **如果本项目对你有用的话，不妨点个`Star`❤️**
 **Click `Star` if you like!! thanks❤️**
@@ -15,17 +15,17 @@ DeepLX 免费翻译API**函数部署版**，与[原项目DeepLX](https://github.
 
 ### Deploy | 部署
 
-使用任意支持云函数部署的服务器，比如可以使用 `Vercel` 或者 `Netlifly` 进行部署，又或者其他能够使用nodejs的服务器。(大多数服务器提供商都提供函数计算服务器)  
+使用任意支持无服务器函数部署的服务器，比如可以使用 `Vercel` 或者 `Netlifly` 进行部署，又或者其他能够使用nodejs的服务器。(大多数服务器提供商都提供函数计算服务器)  
 
 如果你拥有[Vercel](https://vercel.com)账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署到Vercel：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
 
-你也可以在[Netlifly](https://netlifly.com)上一键部署本项目：
+你也可以在[Netlifly](https://netlifly.com)上一键部署本项目：(目前正在测试中，多平台兼容好难啊……)
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless)
 
-项目当前没有任何需要填写的变量值，你只需要直接部署就可以用了，但在后续可能会添加。
+✨项目当前没有任何需要填写的变量值，你只需要直接部署就可以用了，但在后续可能会添加。
 
 如果部署完成了，你就可以开始使用啦！🎉
 #### Self hosting | 自托管
@@ -39,13 +39,11 @@ npm i
 npm run start
 ```
 
-<details>
-<summary>直接复制到命令行运行：点击展开</summary>
+📋直接复制到命令行运行：
 
 ```bash
 git clone https://github.com/guobao/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
 ```
-</details>
 
 🚧你可以运行`npm run test`用来测试翻译接口。
 
@@ -54,7 +52,7 @@ git clone https://github.com/guobao/DeepLX-Serverless && cd DeepLX-Serverless &&
 使用post通过 `域名地址` + `/translate` + `json请求体` 这样的形式获取json响应。
 
 > [!IMPORTANT]
-> **你需要修改`YOUR-DOMAIN`为你部署服务的地址！！**
+> **你需要修改`YOUR-DOMAIN`为部署此服务的域名或IP！！**
 
 **Request Example | 请求示例：**
 
@@ -65,17 +63,20 @@ curl --location --request POST 'https://YOUR-DOMAIN/translate' \
     "text": "你好，世界！",
     "source_lang": "zh",
     "target_lang": "en",
-    "alternative_number": 3
+    "alt_count": 3
 }'
 ```
 
-🚧你可以直接复制到命令行运行本地测试：
+📋你可以直接复制到命令行**运行本地测试：**
 
 ```bash
-curl --location --request POST 'http://localhost:9000/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en", "alternative_number": 3}'
+curl --location --request POST 'http://localhost:9000/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en", "alt_count": 3}'
 ```
 
+
 ******
+
+
 **Response Example | 响应示例：**
 
 ```json

@@ -22,11 +22,11 @@ app.post('/translate', async (req, res) => {
   }
 
   // 判断是否备选翻译
-  if (!allowAlternative) alternative_number = 0;
-  const { text, source_lang, target_lang, alternative_number } = req.body;
+  if (!allowAlternative) alt_count = 0;
+  const { text, source_lang, target_lang, alt_count } = req.body;
 
   try {
-    const result = await translate(text, source_lang, target_lang, alternative_number);
+    const result = await translate(text, source_lang, target_lang, alt_count);
     const duration = Date.now() - startTime; // 计算处理时间
     console.log(`[LOG] ${new Date().toISOString()} | 200 | ${duration}ms | POST "translate"`);
 
