@@ -1,10 +1,5 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/functions/index.js" }
-  ],
-  "functions": {
-    "functions/*.js": {
-      "runtime": "node@20.x" 
-    }
-  }
+    { "source": "/(.*)", "destination": "/api/index.js" }
+  ]
 }
