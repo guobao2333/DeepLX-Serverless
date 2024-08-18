@@ -1,5 +1,7 @@
-const axios = require('axios').default;
-const { random } = require('lodash');
+import axios from 'axios';
+// import { random } from 'lodash';
+import lodash from 'lodash';
+const { random } = lodash;
 
 const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc';
 const headers = {
@@ -97,4 +99,4 @@ async function translate(
   }
 }
 
-exports.translate = translate;
+export { translate };

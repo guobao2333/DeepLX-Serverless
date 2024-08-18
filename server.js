@@ -1,6 +1,6 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const { translate } = require('../translate');
+import express from 'express';
+import bodyParser from 'body-parser');
+import { translate } from '../translate';
 
 const app = express();
 const PORT = 9000;
@@ -60,6 +60,6 @@ app.get('/', (req, res) => {
 });
 
 // 启动本地服务器
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+  // console.log(`Server is running on http://localhost:${PORT}`);
+// });
