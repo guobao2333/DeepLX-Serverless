@@ -8,7 +8,7 @@
     "node": ">=16.13"
   },
   "scripts": {
-    "start": "node api/index.js",
+    "start": "node api/server.js",
     "test": "node test.js"
   },
   "keywords": [
