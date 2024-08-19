@@ -4,8 +4,8 @@ import fetch from 'node-fetch';
 // const app = express();
 
 export default async (req, res) => {
-  const { method, body } = req;
-  const domain = req.get('host');
+  const { method, body, hostname, ip } = req;
+  const domain = hostname || ip;
 
   // 转发请求
   const response = await fetch(`https://${domain}/server.js`, {
