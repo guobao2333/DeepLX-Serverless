@@ -1,9 +1,9 @@
-import express from 'express';
+// import express from 'express';
 import fetch from 'node-fetch';
 
-const app = express();
+// const app = express();
 
-app.all('*', (req, res) => {
+export default async (req, res) => {
   const { method, body } = req;
   const domain = req.get('host');
 
@@ -17,4 +17,4 @@ app.all('*', (req, res) => {
   // 返回响应
   const data = await response.json();
   res.status(response.status).json(data);
-});
+};
