@@ -2,7 +2,7 @@
 
 DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(也叫边缘函数)的请求IP不固定的特性，极大程度上避免了`429`请求太频繁报错**
 
-**如果本项目对你有用的话，不妨点个`Star`❤️**
+**如果本项目对你有用的话，不妨点个`Star`❤️**  
 **Click `Star` if you like!! thanks❤️**
 
 ## Let's Go | 开始使用
@@ -15,15 +15,16 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 
 ### Deploy | 部署
 
-使用任意支持无服务器函数部署的服务器，比如可以使用 `Vercel` 或者 `Netlifly` 进行部署，又或者其他能够使用nodejs的服务器。(大多数服务器提供商都提供函数计算服务器)  
+使用任意支持无服务器函数部署的服务器，比如可以使用 `Vercel` 或者 `Netlify` 进行部署，又或者其他能够使用nodejs的服务器。(大多数服务器提供商都提供函数计算服务器)  
 
 如果你拥有[Vercel](https://vercel.com)账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署到Vercel：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
 
-你也可以在[Netlifly](https://netlifly.com)上一键部署本项目：(目前正在测试中，多平台兼容好难啊……)
+<!-- 你也可以在[Netlify](https://netlify.com)上一键部署本项目：  
+(但目前正在测试中，多平台兼容好难啊……)
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless) -->
 
 ✨项目当前没有任何需要填写的变量值，你只需要直接部署就可以用了，但在后续可能会添加。
 
@@ -45,27 +46,15 @@ npm run start
 git clone https://github.com/guobao/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
 ```
 
-🚧你可以运行`npm run test`用来测试翻译接口。
+🚧你可以运行`npm run test`用来测试翻译接口。  
+⚠️注意！测试命令仅返回翻译内容，获取所有结果需要使用`POST`！
 
 ### How To Use | 如何使用
 
 使用post通过 `域名地址` + `/translate` + `json请求体` 这样的形式获取json响应。
 
-> [!IMPORTANT]
-> **你需要修改`YOUR-DOMAIN`为部署此服务的域名或IP！！**
-
-**Request Example | 请求示例：**
-
-```bash
-curl --location --request POST 'https://YOUR-DOMAIN/translate' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "text": "你好，世界！",
-    "source_lang": "zh",
-    "target_lang": "en",
-    "alt_count": 3
-}'
-```
+详细API文档，请查看本项目的wiki：  
+[English](https://github.com/guobao2333/DeepLX-Serverless/wiki/English-document) | [简体中文](https://github.com/guobao2333/DeepLX-Serverless/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
 📋你可以直接复制到命令行**运行本地测试：**
 
@@ -82,7 +71,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 ```json
 {
   "code": 200,
-  "data": "Hello, world!",
+  "data": "你好，世界！",
   "id": 1145141919,
   "method": "Free",
   "source_lang": "zh",
