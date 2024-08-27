@@ -41,6 +41,15 @@ git clone https://github.com/guobao/DeepLX-Serverless && cd DeepLX-Serverless &&
 
 你可以运行`npm run test`用来测试翻译接口。
 
+**Docker**
+```
+# 构建镜像
+docker build -t deeplx-api .
+
+# 运行容器
+docker run -d -p 9000:9000 deeplx-api
+```
+
 ### How To Use | 如何使用
 
 使用post通过 `域名` + `/translate` + `json请求体` 这样的形式获取json响应。
