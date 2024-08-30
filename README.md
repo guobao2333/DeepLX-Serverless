@@ -20,10 +20,22 @@ DeepLX 免费翻译API**函数部署版**，与[原项目DeepLX](https://github.
 
 项目当前没有任何需要填写的变量值，但在后续可能会添加。
 
+#### Docker
+
+直接运行容器：
+```bash
+docker run -d -p 9000:9000 deeplx-api
+```
+
+你还可以自己构建后运行：
+```bash
+docker build -t deeplx-api .
+docker run -d -p 9000:9000 deeplx-api
+```
+
 #### 自托管
 
 尽管本项目是专为 serverless 适配的方案，但是也能使用自己的服务器进行部署：
-
 ```bash
 git clone https://github.com/guobao/DeepLX-Serverless
 cd DeepLX-Serverless
@@ -31,13 +43,10 @@ npm i
 npm run start
 ```
 
-<details>
-<summary>直接复制到命令行运行：点击展开</summary>
-
+直接复制到命令行运行：
 ```bash
 git clone https://github.com/guobao/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
 ```
-</details>
 
 你可以运行`npm run test`用来测试翻译接口。
 
@@ -46,7 +55,6 @@ git clone https://github.com/guobao/DeepLX-Serverless && cd DeepLX-Serverless &&
 使用post通过 `域名` + `/translate` + `json请求体` 这样的形式获取json响应。
 
 请求示例：
-
 ```bash
 curl --location --request POST 'https://YOUR-DOMAIN/translate' \
 --header 'Content-Type: application/json' \
@@ -58,20 +66,16 @@ curl --location --request POST 'https://YOUR-DOMAIN/translate' \
 }'
 ```
 
-<details>
-<summary>直接复制到命令行运行本地测试：点击展开</summary>
-
+直接复制到命令行运行本地测试：
 ```bash
 curl --location 'http://localhost:9000/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en", "alternative_number": 3}'
 ```
-</details>
 
 **请修改`YOUR-DOMAIN`为你部署服务的域名！！**
 
 -----------------
 
 响应示例：
-
 ```json
 {
   "code": 200,
