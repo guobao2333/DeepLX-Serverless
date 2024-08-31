@@ -11,7 +11,7 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 
 - 一双灵活的小手
 - 一个聪明的脑袋瓜
-- 运行环境：Nodejs 16.13 或更高版本
+- 支持 `Nodejs ≥16.13` 或 `Serverless Function` 的服务器
 
 ### Deploy | 部署
 
@@ -26,6 +26,7 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless) -->
 
+因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以选择**自托管**方案。  
 ✨项目当前没有任何需要填写的变量值，你只需要直接部署就可以用了，但在后续可能会添加。
 
 如果部署完成了，你就可以开始使用啦！🎉
@@ -87,9 +88,27 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 1. 在浏览器上安装最新的 [沉浸式翻译](https://github.com/immersive-translate/immersive-translate/releases)。
 2. 点击左下角的 "开发者设置"。启用测试版实验功能。
 3. 翻译服务选中 `DeepLX(beta)`
-3. 设置 URL 为刚才获取的访问路径（需带translate）。
+4. 设置 URL 为刚才获取的访问路径（需带translate）。
 
 ![沉浸式翻译](https://github.com/LegendLeo/deeplx-serverless/assets/25115173/d3affe2b-9e99-4d5c-bc8c-cd67e70d0368)
+
+## Contribute | 贡献
+
+> [!IMPORTANT]
+> **在您做出贡献之前，请先切换到`dev`分支！！**
+> 因为解决分支冲突真的很麻烦！
+
+本人因时间(和各种各样的)原因，故无法及时对您的贡献进行测试，所以您需要**自行测试**。
+
+## Star History
+
+<a href="https://star-history.com/#guobao2333/DeepLX-Serverless&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
+ </picture>
+</a>
 
 ## Acknowledgments | 鸣谢
 1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
