@@ -1,14 +1,17 @@
 import express from 'express';
-import bodyParser from 'body-parser');
-import { translate } from './translate';
+import bodyParser from 'body-parser';
+import { translate } from './translate.js';
 
 const app = express();
 const PORT = 9000;
 const allowAlternative = true;
 
 app.use(bodyParser.json());
+// 为了方便兼容多平台才这样写
+app.post('/translate', async (req, res) => await post(req, res));
+app.get('/', async (req, res) => await get(req, res));
 
-app.post('/translate', async (req, res) => {
+async function post(req, res) {
   const startTime = Date.now(); // 记录开始时间
 
   // 检查请求方法和请求体
@@ -50,16 +53,18 @@ app.post('/translate', async (req, res) => {
       error: error.message
     });
   }
-});
+};
 
-app.get('/', (req, res) => {
+async function get(req, res) {
   res.json({
     code: 200,
     message: "Welcome to the DeepL Free API. Please POST to '/translate'. Visit 'https://github.com/OwO-Network/DeepLX' and 'https://github.com/guobao/DeepLX-Serverless' for more information."
   });
-});
+};
 
 // 启动本地服务器
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+export { post, get };
