@@ -5,8 +5,14 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 **如果本项目对你有用的话，不妨点个`Star`❤️**  
 **Click `Star` if you like!! thanks❤️**
 
-## Let's Go | 开始使用
+## Major Changes | 重大改变
+> *vvvvery big changes🤣
 
+如果您在这之前不使用本项目，此部分可以跳过。
+1. 新增了docker部署支持
+2. 请求参数变化： `alternative_number` -> `alt_count`
+
+## Let's Go | 开始使用
 ### Prerequisites | 你需要准备什么
 
 - 一双灵活的小手
@@ -29,11 +35,23 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以选择**自托管**方案。  
 ✨项目当前没有任何需要填写的变量值，你只需要直接部署就可以用了，但在后续可能会添加。
 
-如果部署完成了，你就可以开始使用啦！🎉
+如果部署完成了，就可以开始使用啦！🎉
+#### Docker
+
+直接运行容器：
+```bash
+docker run -d -p 9000:9000 deeplx-api
+```
+
+你还可以自己构建后运行：
+```bash
+docker build -t deeplx-api .
+docker run -d -p 9000:9000 deeplx-api
+```
+
 #### Self hosting | 自托管
 
 ✅尽管本项目是专为 serverless 适配的方案，但是也能使用自己的服务器进行部署：
-
 ```bash
 git clone https://github.com/guobao2333/DeepLX-Serverless
 cd DeepLX-Serverless
@@ -42,7 +60,6 @@ npm run start
 ```
 
 📋直接复制到命令行运行：
-
 ```bash
 git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
 ```
@@ -57,28 +74,9 @@ git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverles
 详细API文档，请查看本项目的wiki：  
 [English](https://github.com/guobao2333/DeepLX-Serverless/wiki/English-document) | [简体中文](https://github.com/guobao2333/DeepLX-Serverless/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
-📋你可以直接复制到命令行**运行本地测试：**
-
+📋你可以直接复制到命令行运行**本地测试：**
 ```bash
-curl --location --request POST 'http://localhost:9000/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en", "alt_count": 3}'
-```
-
-
-******
-
-
-**Response Example | 响应示例：**
-
-```json
-{
-  "code": 200,
-  "data": "你好，世界！",
-  "id": 1145141919,
-  "method": "Free",
-  "source_lang": "zh",
-  "target_lang": "en",
-  "alternatives": [ "Hello, World!", "Hello world!", "Hi, world!" ]
-}
+curl --location --request POST 'http://localhost:9000/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
 ```
 
 ✨部署完成后，建议搭配浏览器插件「沉浸式翻译」一同使用。
@@ -111,6 +109,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 </a>
 
 ## Acknowledgments | 鸣谢
+
 1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
 2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)
 3. [bropines/Deeplx-vercel](https://github.com/bropines/Deeplx-vercel)
