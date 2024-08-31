@@ -58,7 +58,7 @@ async function post(req, res) {
 async function get(req, res) {
   res.json({
     code: 200,
-    message: "Welcome to the DeepL Free API. Please POST to '/translate'. Visit 'https://github.com/OwO-Network/DeepLX' and 'https://github.com/guobao/DeepLX-Serverless' for more information."
+    message: "Welcome to the DeepL Free API. Please POST to '/translate'. Visit 'https://github.com/OwO-Network/DeepLX' and 'https://github.com/guobao2333/DeepLX-Serverless' for more information."
   });
 };
 

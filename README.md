@@ -35,7 +35,7 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 ✅尽管本项目是专为 serverless 适配的方案，但是也能使用自己的服务器进行部署：
 
 ```bash
-git clone https://github.com/guobao/DeepLX-Serverless
+git clone https://github.com/guobao2333/DeepLX-Serverless
 cd DeepLX-Serverless
 npm i
 npm run start
@@ -44,7 +44,7 @@ npm run start
 📋直接复制到命令行运行：
 
 ```bash
-git clone https://github.com/guobao/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
+git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
 ```
 
 🚧你可以运行`npm run test`用来测试翻译接口。  
