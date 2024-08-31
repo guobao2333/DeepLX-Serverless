@@ -1,6 +1,7 @@
-const axios = require('axios').default;
-const { random } = require('lodash');
+import axios from 'axios';
+import lodash from 'lodash';
 
+const { random } = lodash;
 const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc';
 const headers = {
   'Content-Type': 'application/json',
@@ -37,20 +38,20 @@ async function translate(
   text,
   sourceLang = 'AUTO',
   targetLang = 'ZH',
-  alternativeNumber = 0,
+  alternativeCount = 0,
   printResult = false,
 ) {
   const iCount = getICount(text);
   const id = getRandomNumber();
 
-  alternativeNumber = Math.max(Math.min(3, alternativeNumber), 0);
+  alternativeCount = Math.max(Math.min(3, alternativeCount), 0);
 
   const postData = {
     jsonrpc: '2.0',
     method: 'LMT_handle_texts',
     id: id,
     params: {
-      texts: [{ text: text, requestAlternatives: alternativeNumber }],
+      texts: [{ text: text, requestAlternatives: alternativeCount }],
       splitting: 'newlines',
       lang: {
         source_lang_user_selected: sourceLang.toUpperCase(),
@@ -97,4 +98,4 @@ async function translate(
   }
 }
 
-exports.translate = translate;
+export { translate };
