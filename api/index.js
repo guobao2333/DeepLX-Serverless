@@ -1,20 +1,16 @@
-// import express from 'express';
+import express from 'express';
 import fetch from 'node-fetch';
+import { post, get } from '../server.js';
 
-// const app = express();
+const app = express();
 
-export default async (req, res) => {
-  const { method, body, hostname, ip } = req;
-  const domain = hostname || ip;
-
+app.post('/translate', async (req, res) => {
   // 转发请求
-  const response = await fetch(`https://${domain}/server.js`, {
-    method,
-    body: method === 'GET' ? null : JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json' }
-  });
+  const response = await post(req, res);
 
   // 返回响应
   const data = await response.json();
   res.status(response.status).json(data);
-};
+});
+
+app.get('/', async (req, res) => await get(req, res));
