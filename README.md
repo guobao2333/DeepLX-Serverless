@@ -98,6 +98,16 @@ curl --location 'http://localhost:9000/translate' --header 'Content-Type: applic
 
 ![沉浸式翻译](https://github.com/LegendLeo/deeplx-serverless/assets/25115173/d3affe2b-9e99-4d5c-bc8c-cd67e70d0368)
 
+## Star History
+
+<a href="https://star-history.com/#guobao2333/DeepLX-Serverless&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
+ </picture>
+</a>
+
 ## 鸣谢
 1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
 2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)
