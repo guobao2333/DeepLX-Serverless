@@ -34,6 +34,6 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "jrz-deeplx-serv-58"
-          entrypoint: "https://deno.land/std@0.217.0/http/file_server.ts"
-          root: ""
+          project: "deeplx-serv-92"
+          entrypoint: "/api/index.js"
+          root: "/"
