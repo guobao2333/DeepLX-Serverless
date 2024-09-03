@@ -6,7 +6,6 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 **Click `Star` if you like!! thanks❤️**
 
 ## Major Changes | 重大改变
-> *vvvvery big changes🤣
 
 如果您在这之前不使用本项目，此部分可以跳过。
 1. 新增了docker部署支持
@@ -32,8 +31,8 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless) -->
 
-因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以选择**自托管**方案。  
-✨项目当前没有任何需要填写的变量值，你只需要直接部署就可以用了，但在后续可能会添加。
+因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以先打开一个`issues`并选择**自托管**方案。  
+✨项目当前没有任何需要填写的变量值，但在后续可能会添加。
 
 如果部署完成了，就可以开始使用啦！🎉
 #### Docker
@@ -93,10 +92,10 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 ## Contribute | 贡献
 
 > [!IMPORTANT]
+> 由于我已对`main`分支做出限制，所以
 > **在您做出贡献之前，请先切换到`dev`分支！！**
-> 因为解决分支冲突真的很麻烦！
 
-本人因时间(和各种各样的)原因，故无法及时对您的贡献进行测试，所以您需要**自行测试**。
+本人因时间(和各种各样的)原因，故无法及时对您的贡献进行测试，所以您还需要**自行测试**。
 
 ## Star History
 
