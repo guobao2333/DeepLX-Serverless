@@ -34,6 +34,6 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "deeplx-serv-92"
-          entrypoint: "/home/runner/work/DeepLX-Serverless/DeepLX-Serverless/api/index.js"
-          root: "/"
+          project: "jrz-deeplx-serv-70"
+          entrypoint: "api/index.js"
+          root: "out"
