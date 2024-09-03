@@ -36,4 +36,4 @@ jobs:
         with:
           project: "jrz-deeplx-serv-70"
           entrypoint: "api/index.js"
-          root: "out"
+          root: ""
