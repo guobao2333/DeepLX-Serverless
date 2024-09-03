@@ -35,5 +35,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "jrz-deeplx-serv-70"
-          entrypoint: "api/index.js"
+          entrypoint: "server.js"
           root: ""
