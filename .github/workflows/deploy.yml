@@ -35,5 +35,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "deeplx-serv-92"
-          entrypoint: "/api/index.js"
-          root: "/home/runner/work/DeepLX-Serverless/DeepLX-Serverless"
+          entrypoint: "/home/runner/work/DeepLX-Serverless/DeepLX-Serverless/api/index.js"
+          root: "/"
