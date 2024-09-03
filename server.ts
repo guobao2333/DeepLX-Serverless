@@ -1,8 +1,9 @@
 import { Application, Router, Context } from "https://deno.land/x/oak/mod.ts";
 import { translate } from "./translate.ts";
 
-// 配置文件读取
-const config = JSON.parse(await Deno.readTextFile("config.json"));
+// 读取配置文件
+const configText = await Deno.readTextFile("config.json");
+const config = JSON.parse(configText);
 const PORT = 9000;
 const allowAlternative = true;
 
@@ -24,6 +25,7 @@ async function authenticateToken(ctx: Context, next: () => Promise<void>) {
 const app = new Application();
 const router = new Router();
 
+// 添加路由到路由器
 router
   .post('/translate', authenticateToken, async (ctx) => {
     const startTime = Date.now(); // 记录开始时间
@@ -77,6 +79,10 @@ router
       message: "Welcome to the DeepL Free API. Please POST to '/translate'. Visit 'https://github.com/OwO-Network/DeepLX' and 'https://github.com/guobao2333/DeepLX-Serverless' for more information.",
     };
   });
+
+// 将路由添加到应用
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 // 启动应用
 await app.listen({ port: PORT });

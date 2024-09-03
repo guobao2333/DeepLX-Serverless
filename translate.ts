@@ -1,3 +1,4 @@
+// translate.ts
 const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc';
 
 const headers = new Headers({
