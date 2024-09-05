@@ -1,6 +1,6 @@
 # DeepLX Serverless
 
-DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(也叫边缘函数)的请求IP不固定的特性，极大程度上避免了`429`请求太频繁报错**
+DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(也叫边缘函数)请求IP不固定的特性，极大程度上避免了`Error 429`请求太频繁**
 
 **如果本项目对你有用的话，不妨点个`Star`❤️**  
 **Click `Star` if you like!! thanks❤️**
@@ -10,6 +10,7 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 如果您在这之前不使用本项目，此部分可以跳过。
 1. 新增了docker部署支持
 2. 请求参数变化： `alternative_number` -> `alt_count`
+3. 许可证变化： `MIT` -> `GNU AGPL`
 
 ## Let's Go | 开始使用
 ### Prerequisites | 你需要准备什么
@@ -90,12 +91,17 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 ![沉浸式翻译](https://github.com/LegendLeo/deeplx-serverless/assets/25115173/d3affe2b-9e99-4d5c-bc8c-cd67e70d0368)
 
 ## Contribute | 贡献
-
 > [!IMPORTANT]
-> 由于我已对`main`分支做出限制，所以
-> **在您做出贡献之前，请先切换到`dev`分支！！**
+> 在您做出贡献之前请先阅读理解并遵守以下内容：
+1. 先切换到`dev`分支，并同步最新代码。  
+2. 需要进行完整测试后才可在`main`分支打开拉取请求。
+3. 不要对**相同代码**进行多次拉取请求！！
 
 本人因时间(和各种各样的)原因，故无法及时对您的贡献进行测试，所以您还需要**自行测试**。
+
+在您打开拉取请求之前，请先进行测试，测试完毕后再来请求合并！！点名批评多次拉取请求，我不希望看到太多垃圾信息。
+
+如果你是第一次，而且真的想贡献点什么，那么请查看[如何为开源做贡献](https://opensource.guide/how-to-contribute/)，不过我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
 
 ## Star History
 
@@ -106,6 +112,25 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
  </picture>
 </a>
+
+## License | 许可证
+本程序遵循[GUN AGPL-3.0 license](./LICENSE)的条款发布。
+
+    DeepL free translate API for Serverless
+    Copyright (C) 2024 shiguobaona
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## Acknowledgments | 鸣谢
 
