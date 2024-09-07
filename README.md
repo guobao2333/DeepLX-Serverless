@@ -114,7 +114,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 </a>
 
 ## License | 许可证
-本程序遵循[GNU/AGPL-3.0 许可证](./LICENSE)的条款发布。
+本项目遵循[GNU/AGPL-3.0 许可证](./LICENSE)的条款发布。
 
     DeepL free translate API for Serverless
     Copyright (C) 2024 shiguobaona
