@@ -10,7 +10,7 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 如果您在这之前不使用本项目，此部分可以跳过。
 1. 新增了docker部署支持
 2. 请求参数变化： `alternative_number` -> `alt_count`
-3. 许可证变化： `MIT` -> `GNU AGPL`
+3. 许可证变化： `MIT` -> `GNU/AGPL-3.0`
 
 ## Let's Go | 开始使用
 ### Prerequisites | 你需要准备什么
@@ -35,8 +35,7 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以先打开一个`issues`并选择**自托管**方案。  
 ✨项目当前没有任何需要填写的变量值，但在后续可能会添加。
 
-如果部署完成了，就可以开始使用啦！🎉
-#### Docker
+#### Docker | 容器部署
 
 直接运行容器：
 ```bash
@@ -49,9 +48,9 @@ docker build -t deeplx-api .
 docker run -d -p 9000:9000 deeplx-api
 ```
 
-#### Self hosting | 自托管
+#### Self hosting | 源码部署
 
-✅尽管本项目是专为 serverless 适配的方案，但是也能使用自己的服务器进行部署：
+✅尽管本项目是专为 serverless 适配的方案，但是也能使用自己的服务器直接部署源码：
 ```bash
 git clone https://github.com/guobao2333/DeepLX-Serverless
 cd DeepLX-Serverless
@@ -67,12 +66,13 @@ git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverles
 🚧你可以运行`npm run test`用来测试翻译接口。  
 ⚠️注意！测试命令仅返回翻译内容，获取所有结果需要使用`POST`！
 
+如果部署完成了，就可以开始使用啦！🎉
 ### How To Use | 如何使用
 
 使用post通过 `域名地址` + `/translate` + `json请求体` 这样的形式获取json响应。
 
 详细API文档，请查看本项目的wiki：  
-[English](https://github.com/guobao2333/DeepLX-Serverless/wiki/English-document) | [简体中文](https://github.com/guobao2333/DeepLX-Serverless/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+[English](https://github.com/guobao2333/DeepLX-Serverless/wiki/API-Parameters) | [简体中文](https://github.com/guobao2333/DeepLX-Serverless/wiki/API-%E5%8F%82%E6%95%B0)
 
 📋你可以直接复制到命令行运行**本地测试：**
 ```bash
@@ -114,7 +114,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 </a>
 
 ## License | 许可证
-本程序遵循[GUN AGPL-3.0 license](./LICENSE)的条款发布。
+本项目遵循[GNU/AGPL-3.0 许可证](./LICENSE)的条款发布。
 
     DeepL free translate API for Serverless
     Copyright (C) 2024 shiguobaona
@@ -134,6 +134,6 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ## Acknowledgments | 鸣谢
 
-1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
-2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)
-3. [bropines/Deeplx-vercel](https://github.com/bropines/Deeplx-vercel)
+1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX) - 一切的开始
+2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless) - 本项目的重构前项目
+3. [bropines/Deeplx-vercel](https://github.com/bropines/Deeplx-vercel) - 参考部分实现
