@@ -76,11 +76,11 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-      if: ${{ github.ref == startsWith(github.event.ref, 'refs/tags/v') }}
-      steps:
-      - name: Add version tag
-        run: echo "##${{ github.event.ref }}" >> $GITHUB_OUTPUT
-      else:
-      steps:
-      - name: Add timestamp tag
-        run: echo "##${{ github.event_time }}" >> $GITHUB_OUTPUT
+
+      - name: Add tag based on condition
+      run: |
+        if [[ ${{ github.ref }} =~ refs/tags/v ]]; then
+          echo "##${{ github.event.ref }}" >> $GITHUB_OUTPUT
+        else
+          echo "##${{ github.event_time }}" >> $GITHUB_OUTPUT
+        fi
