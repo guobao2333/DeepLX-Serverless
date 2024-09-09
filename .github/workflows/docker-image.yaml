@@ -77,6 +77,10 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
       if: ${{ github.ref == startsWith(github.event.ref, 'refs/tags/v') }}
-      run: echo "##${{ github.event.ref }}" >> $GITHUB_OUTPUT
+      steps:
+      - name: Add version tag
+        run: echo "##${{ github.event.ref }}" >> $GITHUB_OUTPUT
       else:
-      run: echo "##${{ github.event_time }}" >> $GITHUB_OUTPUT
+      steps:
+      - name: Add timestamp tag
+        run: echo "##${{ github.event_time }}" >> $GITHUB_OUTPUT
