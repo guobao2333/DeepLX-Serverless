@@ -66,9 +66,9 @@ jobs:
     - name: Add tag based on condition
       run: |
         if [[ ${{ github.ref }} =~ refs/tags/v ]]; then
-          echo "##${{ github.event.ref }}" >> $GITHUB_OUTPUT
+          echo "::set-output name=tag::${{ github.event.ref }}"
         else
-          echo "##${{ github.event_time }}" >> $GITHUB_OUTPUT
+          echo "::set-output name=tag::${{ github.event_time }}"
         fi
 
     # Build and push Docker image with Buildx (don't push on PR)
