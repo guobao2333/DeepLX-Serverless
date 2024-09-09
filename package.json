@@ -1,9 +1,9 @@
 {
   "name": "deeplx-serverless",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "DeepLX Free API for serverless",
   "type": "module",
-  "main": "translate.js",
+  "main": "server.js",
   "engines": {
     "node": ">=16.13"
   },
@@ -17,7 +17,7 @@
     "translate",
     "serverless"
   ],
-  "license": "GUN AGPL-3.0",
+  "license": "AGPLv3",
   "dependencies": {
     "axios": "^1.6.3",
     "body-parser": "^1.20.2",
