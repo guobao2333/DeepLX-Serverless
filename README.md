@@ -28,10 +28,9 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
 
-<!-- 你也可以在[Netlify](https://netlify.com)上一键部署本项目：  
-(但目前正在测试中，多平台兼容好难啊……)
+你也可以在[Netlify](https://netlify.com)上一键部署本项目：  
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless) -->
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless)
 
 因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以先打开一个`issues`并选择**自托管**方案。  
 ✨项目当前没有任何需要填写的变量值，但在后续可能会添加。
