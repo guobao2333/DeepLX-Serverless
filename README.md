@@ -45,8 +45,8 @@ docker run -d -p 9000:9000 ghcr.io/guobao2333/deeplx-serverless
 
 你还可以自己构建后运行：
 ```bash
-docker build -t deeplx-api .
-docker run -d -p 9000:9000 deeplx-api
+docker build -t deeplx-serverless .
+docker run -d -p 9000:9000 deeplx-serverless
 ```
 
 #### Self hosting | 源码部署

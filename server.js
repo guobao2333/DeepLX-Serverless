@@ -7,7 +7,7 @@ const app = express(),
   PORT = 9000,
   allowAlternative = true,
   CORS = {
-    origin: false, // 还支持指定多个域名或正则表达式
+    origin: false, // 默认关闭跨域访问，还支持指定多个域名或正则表达式
     methods: 'GET,POST',
     allowedHeaders: 'Content-Type',
     preflightContinue: false
