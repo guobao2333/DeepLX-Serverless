@@ -61,7 +61,7 @@ jobs:
           type=ref,event=branch
           type=ref,event=pr
           type=sha
-          type=raw,value=latest
+          type=raw,value=latest,enable=${{ github.event.ref_type == 'tag' }}
 
     - name: Add tag based on condition
       run: |
