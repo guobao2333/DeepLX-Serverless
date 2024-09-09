@@ -10,14 +10,15 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 如果您在这之前不使用本项目，此部分可以跳过。
 1. 新增了docker部署支持
 2. 请求参数变化： `alternative_number` -> `alt_count`
-3. 许可证变化： `MIT` -> `GNU/AGPL-3.0`
+3. 许可证变化： `MIT` -> `AGPLv3`
 
 ## Let's Go | 开始使用
 ### Prerequisites | 你需要准备什么
 
 - 一双灵活的小手
-- 一个聪明的脑袋瓜
-- 支持 `Nodejs ≥16.13` 或 `Serverless Function` 的服务器
+- 一个聪明的小脑袋瓜
+- 支持 `Nodejs ≥16.13` 或 `Docker` 或 `Serverless Function` 的服务器
+- (可选) 拥有[Vercel](https://vercel.com)账号
 
 ### Deploy | 部署
 
@@ -27,25 +28,24 @@ DeepLX 免费翻译API**函数部署版**，与原项目[DeepLX](https://github.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
 
-<!-- 你也可以在[Netlify](https://netlify.com)上一键部署本项目：  
-(但目前正在测试中，多平台兼容好难啊……)
+你也可以在[Netlify](https://netlify.com)上一键部署本项目：  
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless) -->
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless)
 
 因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以先打开一个`issues`并选择**自托管**方案。  
 ✨项目当前没有任何需要填写的变量值，但在后续可能会添加。
 
 #### Docker | 容器部署
 
-直接运行容器：
+直接运行预构建容器：
 ```bash
-docker run -d -p 9000:9000 deeplx-api
+docker run -d -p 9000:9000 ghcr.io/guobao2333/deeplx-serverless
 ```
 
 你还可以自己构建后运行：
 ```bash
-docker build -t deeplx-api .
-docker run -d -p 9000:9000 deeplx-api
+docker build -t deeplx-serverless .
+docker run -d -p 9000:9000 deeplx-serverless
 ```
 
 #### Self hosting | 源码部署
@@ -81,7 +81,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ✨部署完成后，建议搭配浏览器插件「沉浸式翻译」一同使用。
 
-## 沉浸式翻译设置
+## Use On Browser Plugin | 沉浸式翻译设置
 
 1. 在浏览器上安装最新的 [沉浸式翻译](https://github.com/immersive-translate/immersive-translate/releases)。
 2. 点击左下角的 "开发者设置"。启用测试版实验功能。
@@ -99,9 +99,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 本人因时间(和各种各样的)原因，故无法及时对您的贡献进行测试，所以您还需要**自行测试**。
 
-在您打开拉取请求之前，请先进行测试，测试完毕后再来请求合并！！点名批评多次拉取请求，我不希望看到太多垃圾信息。
-
-如果你是第一次，而且真的想贡献点什么，那么请查看[如何为开源做贡献](https://opensource.guide/how-to-contribute/)，不过我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
+如果你是第一次贡献，并且真的想贡献点什么，那么请查看[如何为开源做贡献](https://opensource.guide/how-to-contribute/)，不过我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
 
 ## Star History
 
