@@ -35,7 +35,7 @@ function getTimestamp(iCount) {
 }
 
 async function translate(
-  text,
+  text = 'Error: The original text cannot be empty!',
   sourceLang = 'AUTO',
   targetLang = 'ZH',
   alternativeCount = 0,
@@ -75,9 +75,7 @@ async function translate(
     });
 
     if (response.status === 429) {
-      throw new Error(
-        `Too many requests, your IP has been blocked by DeepL temporarily, please don't request it frequently in a short time.`
-      );
+      throw new Error(`Too many requests, your IP has been blocked by DeepL temporarily, please don't request it frequently in a short time.`);
     }
 
     if (response.status !== 200) {
@@ -94,7 +92,7 @@ async function translate(
     }
     return result;
   } catch (err) {
-    console.error(err);
+    console.error(err, err.stack);
   }
 }
 

@@ -13,6 +13,7 @@ const app = express(),
     preflightContinue: false
   };
 
+// 其他平台支持配置CORS，我就不兼容了
 app.use(cors(CORS));
 app.use(bodyParser.json());
 
@@ -33,7 +34,7 @@ async function post(req, res) {
     });
   }
 
-  // 判断是否备选翻译
+  // 是否允许备选翻译
   if (!allowAlternative) alt_count = 0;
   const { text, source_lang, target_lang, alt_count } = req.body;
 
