@@ -9,9 +9,10 @@
 **如果本项目对你有用的话，不妨点个`Star`❤️**  
 **Click `Star` if you like!! thanks❤️**
 
-# Let's Go | 开始使用
+<!-- # Let's Go | 开始使用 -->
 ## Prerequisites | 你需要准备什么
-
+在正式开始使用前，我们还需要做一些准备工作呢 (^o^)/  
+你需要：
 - 一双灵活的小手🙌🏻
 - 一个聪明的小脑袋瓜🧠
 - 支持 `Nodejs ≥16.13` 或 `Docker` 或 `Serverless Function` 的服务器💻
@@ -36,6 +37,7 @@
 > 如果您需要跨域访问，请在`server.js`中配置`CORS`  
 > Vercel这类平台支持更便捷的方式配置，详请查阅其平台文档。
 
+
 ### Docker | 容器部署
 
 🐳直接运行预构建容器：
@@ -48,6 +50,7 @@ docker run -d -p 9000:9000 ghcr.io/guobao2333/deeplx-serverless
 docker build -t DeepLXS .
 docker run -d -p 9000:9000 DeepLXS
 ```
+
 
 ### Self hosting | 源码部署
 
@@ -68,6 +71,8 @@ git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverles
 ⚠️注意！测试命令仅返回翻译内容，获取所有结果需要使用`POST`！
 
 如果部署完成了，就可以开始使用啦！🎉
+
+
 ## How To Use | 如何使用
 > [!IMPORTANT]
 > 请求时视部署服务的地区而定，可能会存在返回速度不一的情况，在中国地区可能会出现完全无法访问的情况，届时请尝试更换部署服务的地区，或让您部署的服务能够正常向DeepL发送请求即可。
@@ -84,7 +89,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ✨部署完成后，建议搭配浏览器插件「沉浸式翻译」一同使用。
 
-# Use In Browser Extension Plugin | 在沉浸式翻译中使用
+## Use In Browser Extension Plugin | 在沉浸式翻译中使用
 
 1. 在浏览器上安装最新的 [沉浸式翻译](https://github.com/immersive-translate/immersive-translate/releases)。
 2. 点击左下角的 "开发者设置"。启用测试版实验功能。
@@ -93,7 +98,17 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ![沉浸式翻译](https://github.com/LegendLeo/deeplx-serverless/assets/25115173/d3affe2b-9e99-4d5c-bc8c-cd67e70d0368)
 
-# Contribute | 贡献
+## Star History
+
+<a href="https://star-history.com/#guobao2333/DeepLX-Serverless&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
+ </picture>
+</a>
+
+## Contribute | 贡献
 > [!IMPORTANT]
 > **在您做出贡献之前请先阅读理解并遵守以下内容：**
 1. 先切换到`dev`分支，同步最新代码。  
@@ -104,17 +119,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 如果你是第一次贡献，并且真的想贡献点什么，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)，不过我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
 
-# Star History
-
-<a href="https://star-history.com/#guobao2333/DeepLX-Serverless&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=guobao2333/DeepLX-Serverless&type=Date" />
- </picture>
-</a>
-
-# License | 开源许可
+## License | 开源许可
 本项目遵循[GNU/AGPLv3 许可证](./LICENSE)的条款发布。
 
     DeepL free translate API for Serverless
@@ -133,7 +138,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Acknowledgments | 鸣谢
+## Acknowledgments | 鸣谢
 
 1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX) - 感谢OwO-Network的优秀项目(•̀ᴗ•́)و̑̑
 2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless) - 本项目的重构前项目，接过维护的大旗(ง •̀_•́)ง
