@@ -13,6 +13,7 @@ const app = express(),
     preflightContinue: false
   };
 
+// 其他平台支持配置CORS，我就不兼容了
 app.use(cors(CORS));
 app.use(bodyParser.json());
 
@@ -33,7 +34,7 @@ async function post(req, res) {
     });
   }
 
-  // 判断是否备选翻译
+  // 是否允许备选翻译
   if (!allowAlternative) alt_count = 0;
   const { text, source_lang, target_lang, alt_count } = req.body;
 
@@ -67,7 +68,7 @@ async function post(req, res) {
 async function get(req, res) {
   res.json({
     code: 200,
-    message: "Welcome to the DeepL Free API. Please POST to '/translate'. This program is published in accordance with the terms of GUN AGPL-3.0. Visit 'https://github.com/guobao2333/DeepLX-Serverless' for more information."
+    message: "Welcome to the DeepL Free API. Please POST to '/translate'. This program is published in accordance with the terms of GNU/AGPLv3. Visit 'https://github.com/guobao2333/DeepLX-Serverless' for more information."
   });
 };
 

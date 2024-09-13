@@ -1,7 +1,7 @@
 {
   "name": "deeplx-serverless",
-  "version": "1.1.0",
-  "description": "DeepLX Free API for serverless",
+  "version": "1.1.2",
+  "description": "DeepL free API for Serverless",
   "type": "module",
   "main": "server.js",
   "engines": {

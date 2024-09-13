@@ -1,5 +1,16 @@
 # Project
 README.md
-LICENSE
+node_modules/
+
+# git
+.git/
+.github/
 .gitignore
+
+# vercel
+api/
 vercel.json
+
+# netlify
+functions/
+netlify.toml
