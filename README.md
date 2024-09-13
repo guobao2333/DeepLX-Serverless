@@ -6,6 +6,7 @@
 虽然因此不会立马被*暂时封禁*，但也请不要滥用！目前我部署在vercel上会有流量限制，如果您有大量内容需要翻译，请购买DeepL的付费版，当前项目使用的free接口会受到DeepL政策限制  
 由于目前项目未对pro接口进行适配，所以现在还只能使用free接口，不过在将来会完善，敬请期待~ („• ֊ •„)੭
 
+
 **如果本项目对你有用的话，不妨点个`Star`❤️**  
 **Click `Star` if you like!! thanks❤️**
 
@@ -54,7 +55,7 @@ docker run -d -p 9000:9000 DeepLXS
 
 ### Self hosting | 源码部署
 
-✅尽管本项目是专为 serverless 适配的方案，但是也能使用自己的服务器进行部署：
+✅尽管本项目是专为 serverless 适配的方案，但是也能使用自己的服务器直接部署源码：
 ```bash
 git clone https://github.com/guobao2333/DeepLX-Serverless
 cd DeepLX-Serverless
