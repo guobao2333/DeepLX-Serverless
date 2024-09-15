@@ -64,7 +64,7 @@ jobs:
           type=ref,event=branch
           type=ref,event=pr
           type=sha
-          type=raw,value=${{ github.ref }},enable=${{ github.event.ref_type == 'tag' && github.ref =~ refs/tags/v }}
+          type=raw,value=${{ github.ref }},enable=${{ github.event.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/v') }}
           type=raw,value=${{ github.event_time }},enable=${{ github.event.ref_type != 'tag' }}
           type=raw,value=latest,enable=${{ github.event.ref_type == 'tag' }}
 
