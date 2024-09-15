@@ -1,15 +1,41 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import yargs from 'yargs/yargs';
+import { hideBin } from 'yargs/helpers';
 import { translate } from './translate.js';
 
+// 解析参数
+const argv = yargs(hideBin(process.argv))
+  .option('port', {
+    alias: 'p',
+    describe: '端口号',
+    coerce: coerce_port,
+    default: 9000
+  })
+  .option('alt', {
+    alias: 'a',
+    describe: '请求备选翻译',
+    type: 'boolean',
+    default: true
+  })
+  .option('cors', {
+    alias: 'c',
+    describe: '允许跨域访问的源(origin)',
+    coerce: coerce_cors,
+    default: false
+  })
+  .help().alias('help', 'h')
+  .argv;
+
+// 定义配置
 const app = express(),
-  PORT = 9000,
-  allowAlternative = true,
+  PORT = argv.port,
+  allowAlternative = argv.alt,
   CORS = {
-    origin: false, // 默认关闭跨域访问，还支持指定多个域名或正则表达式
+    origin: argv.cors,
     methods: 'GET,POST',
-    allowedHeaders: 'Content-Type',
+    allowedHeaders: ['Content-Type', 'Authorization'],
     preflightContinue: false
   };
 
@@ -24,24 +50,33 @@ app.get('/', async (req, res) => await get(req, res));
 async function post(req, res) {
   const startTime = Date.now(); // 记录开始时间
 
-  // 检查请求方法和请求体
-  if (req.method !== 'POST' || !req.body || !req.body.text) {
+  // 检查请求体
+  if (!req.body || Object.keys(req.body).length === 0) {
     const duration = Date.now() - startTime;
-    console.log(`[LOG] ${new Date().toISOString()} | 404 | ${duration}ms | POST "translate"`);
-    return res.status(404).json({
-      "code": 404,
-      "message": "Path not found"
+    console.log(`[LOG] ${new Date().toISOString()} | POST "translate" | 400 | Request body does not exist | ${duration}ms`);
+    return res.status(400).json({
+      "code": 400,
+      "message": "Bad Request"
     });
   }
 
-  // 是否允许备选翻译
-  if (!allowAlternative) alt_count = 0;
   const { text, source_lang, target_lang, alt_count } = req.body;
+
+  // 是否允许备选翻译
+  if (!allowAlternative && alt_count !== undefined) {
+    const duration = Date.now() - startTime;
+    console.log(`[LOG] ${new Date().toISOString()} | POST "translate" | 405 | Alt Not Allowed | ${duration}ms`);
+    return res.status(405).json({
+      "code": 405,
+      "message": "Alternative Translate Not Allowed"
+    });
+    alt_count = 0;
+  }
 
   try {
     const result = await translate(text, source_lang, target_lang, alt_count);
     const duration = Date.now() - startTime; // 计算处理时间
-    console.log(`[LOG] ${new Date().toISOString()} | 200 | ${duration}ms | POST "translate"`);
+    console.log(`[LOG] ${new Date().toISOString()} | POST "translate" | 200 | ${duration}ms`);
 
     const responseData = {
       code: 200,
@@ -54,9 +89,10 @@ async function post(req, res) {
     };
 
     res.json(responseData);
+
   } catch (error) {
     const duration = Date.now() - startTime;
-    console.error(`[ERROR] ${new Date().toISOString()} | 500 | ${duration}ms | POST "translate" | ${error.message}`);
+    console.error(`[ERR] ${new Date().toISOString()} | POST "translate" | 500 | ${error.message} | ${duration}ms`);
     res.status(500).json({
       code: 500,
       message: 'Translation failed',
@@ -72,9 +108,25 @@ async function get(req, res) {
   });
 };
 
+function coerce_cors(arg) {
+  if (typeof arg === 'string' || typeof arg === 'boolean') {
+    return arg;
+  }
+  console.error("ParamTypeError: \x1b[33m'"+arg+"'\x1b[31m, origin should be Boolean or String.\n\x1b[0meg: \x1b[32m'*' or true or RegExp");
+  process.exit(1);
+}
+
+function coerce_port(arg) {
+  if (typeof arg === 'number' && !isNaN(arg) && Number.isInteger(arg) && arg >= 0 && arg <= 65535) {
+    return arg;
+  }
+  console.warn("WARNING:\x1b[0m port should be >= 0 and < 65536.\nUsed default value instead: 9000\n");
+  return 9000;
+}
+
 // 启动本地服务器
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running and listening on http://localhost:${PORT}`);
 });
 
 export { post, get };

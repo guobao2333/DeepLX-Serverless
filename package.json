@@ -1,17 +1,18 @@
 {
   "name": "deeplx-serverless",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "DeepL free API for Serverless",
   "type": "module",
   "main": "server.js",
   "engines": {
-    "node": ">=16.13"
+    "node": ">=18"
   },
   "scripts": {
     "start": "node server.js",
     "test": "node test.js"
   },
   "keywords": [
+    "deeplxs",
     "deeplx",
     "deepl",
     "translate",
@@ -25,6 +26,7 @@
     "express": "^4.18.2",
     "lodash": "^4.17.21",
     "node-fetch": "^3.3.2",
-    "random-int": "^3.0.0"
+    "random-int": "^3.0.0",
+    "yargs": "^17.7.2"
   }
 }
