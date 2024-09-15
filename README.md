@@ -16,7 +16,7 @@
 你需要：
 - 一双灵活的小手🙌🏻
 - 一个聪明的小脑袋瓜🧠
-- 支持 `Nodejs ≥16.13` 或 `Docker` 或 `Serverless Function` 的服务器💻
+- 支持 `Nodejs ≥18` 或 `Docker` 或 `Serverless Function` 的服务器💻
 - (可选) 拥有[Vercel](https://vercel.com)或[Netlify](https://netlify.com)的账号
 
 ## Deploy | 部署
@@ -34,11 +34,6 @@
 因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以打开一个`issues📌`或打开一个`Pull Request📎`贡献您的代码。  
 ✨项目当前没有任何需要填写的变量值，但在后续可能会添加。
 
-> [!IMPORTANT]
-> 如果您需要跨域访问，请在`server.js`中配置`CORS`  
-> Vercel这类平台支持更便捷的方式配置，详请查阅其平台文档。
-
-
 ### Docker | 容器部署
 
 🐳直接运行预构建容器：
@@ -48,8 +43,8 @@ docker run -d -p 9000:9000 ghcr.io/guobao2333/deeplx-serverless
 
 🚧你还可以自己构建后运行：
 ```bash
-docker build -t DeepLXS .
-docker run -d -p 9000:9000 DeepLXS
+docker build -t deeplxs .
+docker run -d -p 9000:9000 deeplxs
 ```
 
 
@@ -73,6 +68,24 @@ git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverles
 
 如果部署完成了，就可以开始使用啦！🎉
 
+#### startup parameters | 启动参数
+> [!IMPORTANT]
+> 此功能在 v1.2.0 及以上版本中可用
+
+如果你想的话，可以在启动时添加参数：
+```bash
+npm run start -- -p 8888
+```
+
+你可以添加一个`--no`前缀来禁止备选翻译：
+```bash
+npm run start -- --no-a
+```
+
+使用`-h`来获取所有参数：
+```bash
+npm run start -- -h
+```
 
 ## How To Use | 如何使用
 > [!IMPORTANT]
@@ -121,7 +134,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 如果你是第一次贡献，并且真的想贡献点什么，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)，不过我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
 
 ## License | 开源许可
-本项目遵循[GNU/AGPLv3 许可证](./LICENSE)的条款发布。
+本项目遵循[GNU/AGPLv3](./LICENSE)许可证的条款发布。
 
     DeepL free translate API for Serverless
     Copyright (C) 2024 shiguobaona
@@ -142,5 +155,5 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 ## Acknowledgments | 鸣谢
 
 1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX) - 感谢OwO-Network的优秀项目(•̀ᴗ•́)و̑̑
-2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless) - 本项目的重构前项目，接过维护的大旗(ง •̀_•́)ง
+2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless) - 原项目
 3. [bropines/Deeplx-vercel](https://github.com/bropines/Deeplx-vercel) - 参考部分实现
