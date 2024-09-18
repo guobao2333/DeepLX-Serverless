@@ -4,7 +4,7 @@
 与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`请求太频繁的报错（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
 
 虽然因此不会立马被*暂时封禁*，但也请不要滥用！目前我部署在vercel上会有流量限制，如果您有大量内容需要翻译，请购买DeepL的付费版，当前项目使用的free接口会受到DeepL政策限制  
-由于目前项目未对pro接口进行适配，所以现在还只能使用free接口，不过在将来会完善，敬请期待~ („• ֊ •„)੭
+由于目前项目未对pro接口进行适配，所以现在还只能使用free接口，不过在将来会完善，敬请期待~(„• ֊ •„)੭
 
 
 **如果本项目对你有用的话，不妨点个`Star`❤️**  
@@ -12,7 +12,7 @@
 
 <!-- # Let's Go | 开始使用 -->
 ## Prerequisites | 你需要准备什么
-在正式开始使用前，我们还需要做一些准备工作呢 (^o^)/  
+在正式开始使用前，我们还需要做一些准备工作喵(^o^)/  
 你需要：
 - 一双灵活的小手🙌🏻
 - 一个聪明的小脑袋瓜🧠
@@ -73,7 +73,7 @@ git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverles
 > 此功能在 v2.0.0 及以上版本中可用
 
 如果你想的话，可以在启动时添加参数。  
-添加一个`--no`前缀来禁止备选翻译：
+比如添加一个`--no`前缀和`-a`参数来禁止备选翻译：
 ```bash
 npm run start -- --no-a
 ```
@@ -117,19 +117,18 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ## Contribute | 贡献
 > [!IMPORTANT]
-> **在您做出贡献之前请先阅读理解并遵守以下内容：**
-1. 先切换到`dev`分支，同步最新代码。  
-2. 如果在贡献时对贡献规范有疑惑，请打开一个`issues`
-3. 不要对**相同代码**进行多次拉取请求！！
+> **在您做出贡献之前请先按顺序操作：**
+1. 先切换到`dev`分支，`pull`或者`fork`最新的代码。
+2. 提交并***签名***你的更改。(对提交进行签名是一种最佳实践)
+3. 打开一个PR或多或少说明更改内容，接下来请等待合并。
 
-本人因时间(和各种各样的)原因，故无法及时对您的贡献进行测试，所以您可能还需要**自行测试**。
+本人因时间(和各种各样的)原因，可能无法及时对您的贡献进行测试，所以您可能还需要更多的**自行测试**。
 
-如果你是第一次贡献，并且真的想贡献点什么，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)，不过我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
+如果你是第一次贡献，并且真的想贡献点什么，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)，我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
 
 ## License | 开源许可
 本项目遵循[GNU/AGPLv3](./LICENSE)许可证的条款发布。
 
-    DeepL free translate API for Serverless
     Copyright (C) 2024 shiguobaona
 
     This program is free software: you can redistribute it and/or modify
