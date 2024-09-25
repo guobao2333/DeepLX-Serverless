@@ -1,4 +1,5 @@
 import express from 'express';
+import 'dotenv/config';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import yargs from 'yargs/yargs';
@@ -10,20 +11,20 @@ const argv = yargs(hideBin(process.argv))
   .option('port', {
     alias: 'p',
     describe: '端口号',
-    coerce: coerce_port,
-    default: 9000
+    coerce: check_port,
+    default: Number(process.env.PORT) || 6119
   })
   .option('alt', {
     alias: 'a',
     describe: '请求备选翻译',
     type: 'boolean',
-    default: true
+    default: Boolean(process.env.ALTERNATIVE) || true
   })
   .option('cors', {
     alias: 'c',
     describe: '允许跨域访问的源(origin)',
-    coerce: coerce_cors,
-    default: false
+    coerce: check_cors,
+    default: process.env.CORS_ORIGIN || false
   })
   .help().alias('help', 'h')
   .argv;
@@ -108,7 +109,8 @@ async function get(req, res) {
   });
 };
 
-function coerce_cors(arg) {
+function check_cors(arg) {
+  if (arg === undefined) return;
   if (typeof arg === 'string' || typeof arg === 'boolean') {
     return arg;
   }
@@ -116,12 +118,12 @@ function coerce_cors(arg) {
   process.exit(1);
 }
 
-function coerce_port(arg) {
+function check_port(arg) {
   if (typeof arg === 'number' && !isNaN(arg) && Number.isInteger(arg) && arg >= 0 && arg <= 65535) {
     return arg;
   }
-  console.warn("WARNING:\x1b[0m port should be >= 0 and < 65536.\nUsed default value instead: 9000\n");
-  return 9000;
+  console.warn("WARNING:\x1b[0m port should be >= 0 and < 65536.\nUsed default value instead: 6119\n");
+  return 6119;
 }
 
 // 启动本地服务器

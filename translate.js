@@ -2,7 +2,9 @@ import axios from 'axios';
 import lodash from 'lodash';
 
 const { random } = lodash;
-const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc';
+const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc',
+  DEEPL_PRO_URL = 'https://api.deepl.com',
+  DEEPL_FREE_URL = 'https://api-free.deepl.com';
 const headers = {
   'Content-Type': 'application/json',
   Accept: '*/*',
@@ -34,6 +36,14 @@ function getTimestamp(iCount) {
   return ts - (ts % iCount) + iCount;
 }
 
+/**
+ * @param {string} text - 待翻译的文本
+ * @param {string} [sourceLang='AUTO'] - 源语言国家/地区代号 默认自动识别
+ * @param {string} targetLang - 目标语言国家/地区代号
+ * @param {number} [alternativeCount] - 请求的备选翻译数量
+ * @param {boolean} [printResult] - 控制台打印返回结果
+ * @returns {object} 一般情况下返回JSON格式对象
+ */
 async function translate(
   text = 'Error: The original text cannot be empty!',
   sourceLang = 'AUTO',
