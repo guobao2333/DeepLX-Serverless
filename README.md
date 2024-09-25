@@ -23,12 +23,9 @@
 
 使用任意支持无服务器函数部署的服务器，比如可以使用 `Vercel` 或者 `Netlify` 进行部署，又或者其他能够使用nodejs的服务器。(大多数服务器提供商都提供函数计算服务器)  
 
-如果你拥有[Vercel](https://vercel.com)账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署到Vercel：
+如果你拥有 [Vercel](https://vercel.com) 或者 [Netlify](https://netlify.com) 账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
-
-或者你拥有[Netlify](https://netlify.com)账号的话，也可以一键部署到Netlify：
-
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless)
 
 因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以打开一个`issues📌`或打开一个`Pull Request📎`贡献您的代码。  
@@ -38,13 +35,13 @@
 
 🐳直接运行预构建容器：
 ```bash
-docker run -d -p 9000:9000 ghcr.io/guobao2333/deeplx-serverless
+docker run -d -p 6119:6119 ghcr.io/guobao2333/deeplx-serverless
 ```
 
 🚧你还可以自己构建后运行：
 ```bash
 docker build -t deeplxs .
-docker run -d -p 9000:9000 deeplxs
+docker run -d -p 6119:6119 deeplxs
 ```
 
 
@@ -58,13 +55,10 @@ npm i
 npm run start
 ```
 
-📋直接复制到命令行运行：
+📋复制到命令行运行来一键启动服务：
 ```bash
 git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
 ```
-
-🛠️你可以运行`npm run test`用来测试翻译接口。  
-⚠️注意！测试命令仅返回翻译内容，获取所有结果需要使用`POST`！
 
 如果部署完成了，就可以开始使用啦！🎉
 
@@ -91,10 +85,25 @@ npm run start -- --no-a
 
 📋你可以直接复制到命令行运行**本地测试：**
 ```bash
-curl --location --request POST 'http://localhost:9000/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
+curl --location --request POST 'http://localhost:6119/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
 ```
 
 ✨部署完成后，建议搭配浏览器插件「沉浸式翻译」一同使用。
+
+### NON-HTTP Call And example | 测试运行与内部调用
+🛠️你可以在不启动服务的情况下直接运行`npm test`用来测试翻译接口以及当前网络与DeepL的连通性。  
+⚠️注意！测试仅返回翻译内容，获取所有结果需要使用`POST`！
+
+由于本项目并没有只局限于http协议的访问，所以完全可以集成到你的Serverless项目中来使用DeepL，下面是一个简单的调用示例：
+```javascript
+import { translate } from './translate.js';
+translate('你好，世界！', 'zh', 'en', 3)
+.then(result => {
+  console.log(result)
+});
+```
+
+具体可以查看`test.js`，其中对调用函数的参数有详细说明。
 
 ## Use In Browser Extension Plugin | 在沉浸式翻译中使用
 
@@ -105,7 +114,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ![沉浸式翻译](https://github.com/LegendLeo/deeplx-serverless/assets/25115173/d3affe2b-9e99-4d5c-bc8c-cd67e70d0368)
 
-## Star History
+## Star History | 收藏趋势
 
 <a href="https://star-history.com/#guobao2333/DeepLX-Serverless&Date">
  <picture>
@@ -117,9 +126,9 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ## Contribute | 贡献
 > [!IMPORTANT]
-> **在您做出贡献之前请先按顺序操作：**
+> **如果您想要做出贡献，可以按照以下顺序操作：**
 1. 先切换到`dev`分支，`pull`或者`fork`最新的代码。
-2. 提交并***签名***你的更改。(对提交进行签名是一种最佳实践)
+2. 提交并***签名***你的更改。(对提交进行签名可以防止冒名顶替)
 3. 打开一个PR或多或少说明更改内容，接下来请等待合并。
 
 本人因时间(和各种各样的)原因，可能无法及时对您的贡献进行测试，所以您可能还需要更多的**自行测试**。
