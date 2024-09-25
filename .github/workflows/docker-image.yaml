@@ -21,7 +21,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event.before != github.event.after }}
 
     permissions:
       packages: write
