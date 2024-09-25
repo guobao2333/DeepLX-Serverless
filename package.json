@@ -1,6 +1,6 @@
 {
   "name": "deeplx-serverless",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "DeepL free API for Serverless",
   "type": "module",
   "main": "server.js",
@@ -18,8 +18,9 @@
     "translate",
     "serverless"
   ],
-  "license": "AGPLv3",
+  "license": "AGPL-3.0",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "axios": "^1.6.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

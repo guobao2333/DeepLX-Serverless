@@ -2,12 +2,6 @@ name: Docker Image CI
 
 on:
   push:
-    paths:
-      - '**.js'
-      - '*.json'
-    branches:
-      - 'main'
-      - 'dev'
     tags:
       - 'v*'
   pull_request:
@@ -27,6 +21,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.action == 'workflow_dispatch' || github.event.before != github.event.after }}
 
     permissions:
       packages: write
@@ -59,13 +54,12 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: |
-          type=schedule
+          type=schedule,pattern={{date 'YYYY/MM/DD-HH:mm' tz='Asia/Shanghai'}}
           type=semver,pattern={{version}}
           type=ref,event=branch
           type=ref,event=pr
           type=sha
-          type=raw,value=${{ github.ref }},enable=${{ github.event.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/v') }}
-          type=raw,value=${{ github.event_time }},enable=${{ github.event.ref_type != 'tag' }}
+          type=raw,value=${{ github.ref }},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
           type=raw,value=latest,enable=${{ github.event.ref_type == 'tag' }}
 
     # Build and push Docker image with Buildx (don't push on PR)

@@ -1,8 +1,10 @@
 import axios from 'axios';
 import lodash from 'lodash';
-
 const { random } = lodash;
-const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc';
+
+const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc'/*,
+  DEEPL_PRO_URL = 'https://api.deepl.com',
+  DEEPL_FREE_URL = 'https://api-free.deepl.com'*/;
 const headers = {
   'Content-Type': 'application/json',
   Accept: '*/*',
@@ -34,6 +36,23 @@ function getTimestamp(iCount) {
   return ts - (ts % iCount) + iCount;
 }
 
+/**
+ * @async
+ * @param {string} text - 待翻译的文本
+ * @param {string} [sourceLang='AUTO'] - 源语言国家/地区代号 默认自动识别
+ * @param {string} targetLang - 目标语言国家/地区代号
+ * @param {number} [alternativeCount] - 请求的备选翻译数量
+ * @param {boolean} [printResult] - 控制台打印返回结果
+ * @returns {Promise<Object>} translationData - 返回翻译数据JSON对象
+ * @typedef {Object} translationData
+ * @property {number} code - http状态码
+ * @property {string} data - 翻译结果
+ * @property {number} id
+ * @property {string} method - 请求的接口类型 目前只有Free
+ * @property {string} source_lang - 源语言国家/地区代号
+ * @property {string} target_lang - 目标语言国家/地区代号
+ * @property {Array<string>} alternatives - 备选翻译列表
+ */
 async function translate(
   text = 'Error: The original text cannot be empty!',
   sourceLang = 'AUTO',
@@ -88,7 +107,7 @@ async function translate(
       alternatives: response.data.result.texts[0].alternatives.map(alternative => alternative.text)
     };
     if (printResult) {
-      console.log(result);
+      console.log(result+'\n');
     }
     return result;
   } catch (err) {

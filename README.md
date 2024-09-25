@@ -4,7 +4,7 @@
 与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`请求太频繁的报错（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
 
 虽然因此不会立马被*暂时封禁*，但也请不要滥用！目前我部署在vercel上会有流量限制，如果您有大量内容需要翻译，请购买DeepL的付费版，当前项目使用的free接口会受到DeepL政策限制  
-由于目前项目未对pro接口进行适配，所以现在还只能使用free接口，不过在将来会完善，敬请期待~ („• ֊ •„)੭
+由于目前项目未对pro接口进行适配，所以现在还只能使用free接口，不过在将来会完善，敬请期待~(„• ֊ •„)੭
 
 
 **如果本项目对你有用的话，不妨点个`Star`❤️**  
@@ -12,7 +12,7 @@
 
 <!-- # Let's Go | 开始使用 -->
 ## Prerequisites | 你需要准备什么
-在正式开始使用前，我们还需要做一些准备工作呢 (^o^)/  
+在正式开始使用前，我们还需要做一些准备工作喵(^o^)/  
 你需要：
 - 一双灵活的小手🙌🏻
 - 一个聪明的小脑袋瓜🧠
@@ -23,12 +23,9 @@
 
 使用任意支持无服务器函数部署的服务器，比如可以使用 `Vercel` 或者 `Netlify` 进行部署，又或者其他能够使用nodejs的服务器。(大多数服务器提供商都提供函数计算服务器)  
 
-如果你拥有[Vercel](https://vercel.com)账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署到Vercel：
+如果你拥有 [Vercel](https://vercel.com) 或者 [Netlify](https://netlify.com) 账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
-
-或者你拥有[Netlify](https://netlify.com)账号的话，也可以一键部署到Netlify：
-
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless)
 
 因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以打开一个`issues📌`或打开一个`Pull Request📎`贡献您的代码。  
@@ -38,13 +35,13 @@
 
 🐳直接运行预构建容器：
 ```bash
-docker run -d -p 9000:9000 ghcr.io/guobao2333/deeplx-serverless
+docker run -d -p 6119:6119 ghcr.io/guobao2333/deeplx-serverless
 ```
 
 🚧你还可以自己构建后运行：
 ```bash
 docker build -t deeplxs .
-docker run -d -p 9000:9000 deeplxs
+docker run -d -p 6119:6119 deeplxs
 ```
 
 
@@ -58,13 +55,10 @@ npm i
 npm run start
 ```
 
-📋直接复制到命令行运行：
+📋复制到命令行运行来一键启动服务：
 ```bash
 git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverless && npm i && npm run start
 ```
-
-🛠️你可以运行`npm run test`用来测试翻译接口。  
-⚠️注意！测试命令仅返回翻译内容，获取所有结果需要使用`POST`！
 
 如果部署完成了，就可以开始使用啦！🎉
 
@@ -73,7 +67,7 @@ git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverles
 > 此功能在 v2.0.0 及以上版本中可用
 
 如果你想的话，可以在启动时添加参数。  
-添加一个`--no`前缀来禁止备选翻译：
+比如添加一个`--no`前缀和`-a`参数来禁止备选翻译：
 ```bash
 npm run start -- --no-a
 ```
@@ -91,10 +85,25 @@ npm run start -- --no-a
 
 📋你可以直接复制到命令行运行**本地测试：**
 ```bash
-curl --location --request POST 'http://localhost:9000/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
+curl --location --request POST 'http://localhost:6119/translate' --header 'Content-Type: application/json' --data '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
 ```
 
 ✨部署完成后，建议搭配浏览器插件「沉浸式翻译」一同使用。
+
+### NON-HTTP Call And example | 测试运行与内部调用
+🛠️你可以在不启动服务的情况下直接运行`npm test`用来测试翻译接口以及当前网络与DeepL的连通性。  
+⚠️注意！测试仅返回翻译内容，获取所有结果需要使用`POST`！
+
+由于本项目并没有只局限于http协议的访问，所以完全可以集成到你的Serverless项目中来使用DeepL，下面是一个简单的调用示例：
+```javascript
+import { translate } from './translate.js';
+translate('你好，世界！', 'zh', 'en', 3)
+.then(result => {
+  console.log(result)
+});
+```
+
+具体可以查看`test.js`，其中对调用函数的参数有详细说明。
 
 ## Use In Browser Extension Plugin | 在沉浸式翻译中使用
 
@@ -105,7 +114,7 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ![沉浸式翻译](https://github.com/LegendLeo/deeplx-serverless/assets/25115173/d3affe2b-9e99-4d5c-bc8c-cd67e70d0368)
 
-## Star History
+## Star History | 收藏趋势
 
 <a href="https://star-history.com/#guobao2333/DeepLX-Serverless&Date">
  <picture>
@@ -117,19 +126,18 @@ curl --location --request POST 'http://localhost:9000/translate' --header 'Conte
 
 ## Contribute | 贡献
 > [!IMPORTANT]
-> **在您做出贡献之前请先阅读理解并遵守以下内容：**
-1. 先切换到`dev`分支，同步最新代码。  
-2. 如果在贡献时对贡献规范有疑惑，请打开一个`issues`
-3. 不要对**相同代码**进行多次拉取请求！！
+> **如果您想要做出贡献，可以按照以下顺序操作：**
+1. 先切换到`dev`分支，`pull`或者`fork`最新的代码。
+2. 提交并***签名***你的更改。(对提交进行签名可以防止冒名顶替)
+3. 打开一个PR或多或少说明更改内容，接下来请等待合并。
 
-本人因时间(和各种各样的)原因，故无法及时对您的贡献进行测试，所以您可能还需要**自行测试**。
+本人因时间(和各种各样的)原因，可能无法及时对您的贡献进行测试，所以您可能还需要更多的**自行测试**。
 
-如果你是第一次贡献，并且真的想贡献点什么，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)，不过我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
+如果你是第一次贡献，并且真的想贡献点什么，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)，我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
 
 ## License | 开源许可
 本项目遵循[GNU/AGPLv3](./LICENSE)许可证的条款发布。
 
-    DeepL free translate API for Serverless
     Copyright (C) 2024 shiguobaona
 
     This program is free software: you can redistribute it and/or modify
