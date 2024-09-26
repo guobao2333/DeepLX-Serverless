@@ -3,8 +3,8 @@
 
 与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`请求太频繁的报错（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
 
-虽然因此不会立马被*暂时封禁*，但也请不要滥用！目前我部署在vercel上会有流量限制，如果您有大量内容需要翻译，请购买DeepL的付费版，当前项目使用的free接口会受到DeepL政策限制  
-由于目前项目未对pro接口进行适配，所以现在还只能使用free接口，不过在将来会完善，敬请期待~(„• ֊ •„)੭
+虽然因此不会立马被*暂时封禁*，但也请不要滥用！目前我部署在vercel上会有流量限制，如果您有大量内容需要翻译，请购买DeepL的付费服务，当前项目使用的Free接口会受到DeepL政策限制  
+由于目前项目未对Pro接口进行适配，所以现在还只能使用Free接口，不过在将来会完善，敬请期待~(„• ֊ •„)੭
 
 
 **如果本项目对你有用的话，不妨点个`Star`❤️**  
@@ -28,7 +28,8 @@
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless)
 
-因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以打开一个`issues📌`或打开一个`Pull Request📎`贡献您的代码。  
+因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以打开一个`issues📌`或打开一个`Pull Request📎`贡献您的代码。
+
 ✨项目当前没有任何需要填写的变量值，但在后续可能会添加。
 
 ### Docker | 容器部署
@@ -62,7 +63,7 @@ git clone https://github.com/guobao2333/DeepLX-Serverless && cd DeepLX-Serverles
 
 如果部署完成了，就可以开始使用啦！🎉
 
-#### startup parameters | 启动参数
+#### Startup Parameters | 启动参数
 > [!IMPORTANT]
 > 此功能在 v2.0.0 及以上版本中可用
 
@@ -91,10 +92,14 @@ curl --location --request POST 'http://localhost:6119/translate' --header 'Conte
 ✨部署完成后，建议搭配浏览器插件「沉浸式翻译」一同使用。
 
 ### NON-HTTP Call And example | 测试运行与内部调用
-🛠️你可以在不启动服务的情况下直接运行`npm test`用来测试翻译接口以及当前网络与DeepL的连通性。  
-⚠️注意！测试仅返回翻译内容，获取所有结果需要使用`POST`！
 
-由于本项目并没有只局限于http协议的访问，所以完全可以集成到你的Serverless项目中来使用DeepL，下面是一个简单的调用示例：
+🛠️你可以在不启动服务的情况下直接运行`npm test`用来测试翻译接口以及当前网络与DeepL的连通性。
+
+⚠️注意！示例仅返回翻译内容，获取请求相关结果需要使用`POST`
+
+由于本项目并没有只局限于http协议的访问，所以完全可以集成到你的Serverless项目中来使用DeepL翻译服务。
+
+下面是一个简单的调用示例：
 ```javascript
 import { translate } from './translate.js';
 translate('你好，世界！', 'zh', 'en', 3)
