@@ -15,7 +15,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # 暴露应用程序端口
-EXPOSE 9000
+EXPOSE 6119
 
 # 使用非 root 用户运行应用
 USER node
