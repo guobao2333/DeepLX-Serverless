@@ -11,3 +11,8 @@
   from = "/translate"
   to = "/functions/index.js"
   status = 200
+
+[[redirects]]
+  from = "/"
+  to = "/functions/index.js"
+  status = 200
