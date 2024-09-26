@@ -61,7 +61,7 @@ async function post(req, res) {
     });
   }
 
-  const { text, source_lang, target_lang, alt_count } = req.body;
+  let { text, source_lang, target_lang, alt_count } = req.body;
 
   // 是否允许备选翻译
   if (!allowAlternative && alt_count !== undefined) {
@@ -71,7 +71,7 @@ async function post(req, res) {
       "code": 405,
       "message": "Alternative Translate Not Allowed"
     });
-    alt_count = 0;
+    // alt_count = 0;
   }
 
   try {
