@@ -1,9 +1,13 @@
 [build]
   command = "npm install"
-  publish = "."
 
 [build.environment]
-  PORT = 6119
+  PORT = "6119"
 
 [functions]
-  directory = "functions"
+  directory = "functions/"
+
+[[redirects]]
+  from = "/translate"
+  to = "/functions/index.js"
+  status = 200
