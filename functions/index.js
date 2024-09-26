@@ -14,3 +14,5 @@ app.post('/translate', async (req, res) => {
 });
 
 app.get('/', async (req, res) => await get(req, res));
+
+export default app;

@@ -1,6 +1,9 @@
 [build]
   command = "npm install"
-  publish = "server.js"
+  publish = "."
 
-[env]
+[build.environment]
   PORT = 6119
+
+[functions]
+  directory = "functions"
