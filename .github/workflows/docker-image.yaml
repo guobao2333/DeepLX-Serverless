@@ -53,7 +53,7 @@ jobs:
         tags: |
           type=semver,pattern={{version}}
           type=ref,event=branch
-          type=raw,value=${{date 'YYYY/MM/DD-HH:mm' tz='Asia/Shanghai'}},enable=${{ github.event.ref_type == 'tag' }}
+          type=raw,value=${{ format('YYYY/MM/DD-HH:mm', 'now', 'Asia/Shanghai') }},enable=${{ github.event.ref_type == 'tag' }}
           type=raw,value=latest,enable=${{ github.event.ref_type == 'tag' }}
 
     # Build and push Docker image with Buildx (don't push on PR)
