@@ -21,7 +21,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event.action == 'workflow_dispatch' || github.event.pull_request.user.login != github.repository.owner.login && github.event.before != github.event.after }}
+    if: ${{ github.event.action == 'workflow_dispatch' || (github.event.pull_request.user.login != github.repository.owner.login && github.event.before != github.event.after) }}
 
     permissions:
       packages: write
