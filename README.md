@@ -17,16 +17,16 @@
 - 一双灵活的小手🙌🏻
 - 一个聪明的小脑袋瓜🧠
 - 支持 `Nodejs ≥18` 或 `Docker` 或 `Serverless Function` 的服务器💻
-- (可选) 拥有[Vercel](https://vercel.com)或[Netlify](https://netlify.com)的账号
+- (可选) 拥有[Vercel](https://vercel.com) <!-- 或[Netlify](https://netlify.com) --> 的账号
 
 ## Deploy | 部署
 
-使用任意支持无服务器函数部署的服务器，比如可以使用 `Vercel` 或者 `Netlify` 进行部署，又或者其他能够使用nodejs的服务器。(大多数服务器提供商都提供函数计算服务器)  
+使用任意支持无服务器函数部署的服务器，比如可以使用 `Vercel` <!-- 或者 `Netlify` --> 进行部署，又或者其他能够使用nodejs的服务器。(大多数服务器提供商都提供函数计算服务器)  
 
-如果你拥有 [Vercel](https://vercel.com) 或者 [Netlify](https://netlify.com) 账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署：
+如果你拥有 [Vercel](https://vercel.com) <!-- 或者 [Netlify](https://netlify.com) --> 账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless)
+<!-- [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/guobao2333/DeepLX-Serverless) -->
 
 因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以打开一个`issues📌`或打开一个`Pull Request📎`贡献您的代码。  
 ✨项目当前没有任何需要填写的变量值，但在后续可能会添加。
