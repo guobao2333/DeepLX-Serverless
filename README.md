@@ -1,16 +1,14 @@
 # DeepLX Serverless
-[本项目](https://github.com/guobao2333/DeepLX-Serverless)是一个基于 DeepL翻译API 的无服务器函数部署项目，旨在提供一个可直接对接的免费翻译解决方案，很适合需要在无服务器环境中集成DeepL翻译服务的开发者使用。
+
+**本项目在[LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)的基础上重构。**
+
+DeepLX Serverless是一个基于 DeepL翻译API 的无服务器函数部署项目，旨在提供一个可直接对接的免费翻译解决方案，很适合需要在无服务器环境中集成DeepL翻译服务的开发者使用。
 
 与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`请求太频繁的报错（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
 
 虽然因此不会立马被*暂时封禁*，但也请不要滥用！目前我部署在vercel上会有流量限制，如果您有大量内容需要翻译，请购买DeepL的付费服务，当前项目使用的Free接口会受到DeepL政策限制  
-由于目前项目未对Pro接口进行适配，所以现在还只能使用Free接口，不过在将来会完善，敬请期待~ (:
 
-
-**如果本项目对你有用的话，不妨点个`Star`❤️**  
-**Click `Star` if you like!! thanks❤️**
-
-## Prerequisites | 你需要准备什么
+## Prerequisites | 准备工作
 在正式开始使用前，我们还需要做一些准备工作喵(^o^)/  
 你需要：
 - 支持 `Nodejs ≥18` 或 `Docker` 或 `Serverless Function` 的服务器
@@ -26,8 +24,6 @@
 如果你拥有 [Vercel](https://vercel.com) 账号的话那就很简单了，因为你只需要点击下方按钮即可一键部署：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
-
-因维护者我有多个仓库需要维护，短时间内将无法对多平台部署方案进行兼容，您可以打开一个`Issues`或打开一个`PR`贡献您的代码。
 
 项目当前没有任何需要填写的变量值，你可以直接使用。  
 配置可编辑`.env`或者提供启动参数来修改。
@@ -125,31 +121,11 @@ translate('你好，世界！', 'zh', 'en', 3)
 2. 提交并***签名***你的更改。(并不强制要求签名，但最好进行签名)
 3. 打开一个PR并或多或少说明变化内容，接下来请等待合并。
 
-本人因各种各样的原因，可能无法及时对您的贡献进行测试，所以您可能还需要更多的**自行测试**。
-
 如果你是第一次贡献，并且真的想贡献点什么，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)，我喜欢叫它「开源贡献指南」，那里有你需要知道的一切。
 
-## License | 开源许可
-本项目遵循[GNU/AGPLv3](./LICENSE)许可证的条款发布。
+## Thanks | 感谢
 
-    Copyright (C) 2024 shiguobaona
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-## thanks | 鸣谢
-
-这些项目为本项目的发展提供了很大的帮助。
+他们为本项目的发展提供了很大的帮助。
 
 1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
 2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)
