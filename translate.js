@@ -1,22 +1,27 @@
 import axios from 'axios';
 import lodash from 'lodash';
-const { random } = lodash;
+import { brotliDecompress } from 'zlib';
+
 
 const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc'/*,
   DEEPL_PRO_URL = 'https://api.deepl.com',
   DEEPL_FREE_URL = 'https://api-free.deepl.com'*/;
 const headers = {
+  'Accept': '*/*',
+  'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh-HK;q=0.6,zh;q=0.5',
+  'Authorization': 'None',
+  'Cache-Control': 'no-cache',
   'Content-Type': 'application/json',
-  Accept: '*/*',
-  'x-app-os-name': 'iOS',
-  'x-app-os-version': '16.3.0',
-  'Accept-Language': 'en-US,en;q=0.9',
-  'Accept-Encoding': 'gzip, deflate, br',
-  'x-app-device': 'iPhone13,2',
-  'User-Agent': 'DeepL-iOS/2.9.1 iOS 16.3.0 (iPhone13,2)',
-  'x-app-build': '510265',
-  'x-app-version': '2.9.1',
-  Connection: 'keep-alive',
+  'DNT': '1',
+  'Origin': 'chrome-extension://cofdbpoegempjloogbagkncekinflcnj',
+  'Pragma': 'no-cache',
+  'Priority': 'u=1, i',
+  'Referer': 'https://www.deepl.com/',
+  'Sec-Fetch-Dest': 'empty',
+  'Sec-Fetch-Mode': 'cors',
+  'Sec-Fetch-Site': 'none',
+  'Sec-GPC': '1',
+  'User-Agent': 'DeepLBrowserExtension/1.28.0 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
 };
 
 function getICount(translateText) {
@@ -24,7 +29,7 @@ function getICount(translateText) {
 }
 
 function getRandomNumber() {
-  return random(8300000, 8399998) * 1000;
+  return lodash.random(8300000, 8399998) * 1000;
 }
 
 function getTimestamp(iCount) {
@@ -36,27 +41,10 @@ function getTimestamp(iCount) {
   return ts - (ts % iCount) + iCount;
 }
 
-/**
- * @async
- * @param {string} text - 待翻译的文本
- * @param {string} [sourceLang='AUTO'] - 源语言国家/地区代号 默认自动识别
- * @param {string} targetLang - 目标语言国家/地区代号
- * @param {number} [alternativeCount] - 请求的备选翻译数量
- * @param {boolean} [printResult] - 控制台打印返回结果
- * @returns {Promise<Object>} translationData - 返回翻译数据JSON对象
- * @typedef {Object} translationData
- * @property {number} code - http状态码
- * @property {string} data - 翻译结果
- * @property {number} id
- * @property {string} method - 请求的接口类型 目前只有Free
- * @property {string} source_lang - 源语言国家/地区代号
- * @property {string} target_lang - 目标语言国家/地区代号
- * @property {Array<string>} alternatives - 备选翻译列表
- */
 async function translate(
-  text = 'Error: The original text cannot be empty!',
-  sourceLang = 'AUTO',
-  targetLang = 'ZH',
+  text,
+  sourceLang,
+  targetLang,
   alternativeCount = 0,
   printResult = false,
 ) {
@@ -67,17 +55,20 @@ async function translate(
 
   const postData = {
     jsonrpc: '2.0',
-    method: 'LMT_handle_texts',
-    id: id,
+    method: 'LMT_split_text',
     params: {
-      texts: [{ text: text, requestAlternatives: alternativeCount }],
-      splitting: 'newlines',
-      lang: {
-        source_lang_user_selected: sourceLang.toUpperCase(),
-        target_lang: targetLang.toUpperCase(),
+      texts: [text],
+      commonJobParams: {
+        mode: 'translate',
+        textType: 'plaintext'
       },
-      timestamp: getTimestamp(iCount),
+      lang: {
+        lang_user_selected: sourceLang.toUpperCase(),
+        lang_computed: targetLang.toUpperCase()
+      }/*,
+      timestamp: getTimestamp(iCount)*/
     },
+    id: id
   };
 
   let postDataStr = JSON.stringify(postData);
@@ -94,21 +85,22 @@ async function translate(
     });
 
     if (response.status === 429) {
-      throw new Error(`Too many requests, your IP has been blocked by DeepL temporarily, please don't request it frequently in a short time.`);
+      throw new Error('Too many requests, your IP has been blocked by DeepL temporarily, please don\'t request it frequently in a short time.');
     }
 
     if (response.status !== 200) {
-      console.error('Error', response.status);
-      return;
+      throw new Error(`Error code: ${response.status}\nError message: ${response.statusText}`);
     }
 
+    console.log(response.data);
+
     const result = {
-      text: response.data.result.texts[0].text,
-      alternatives: response.data.result.texts[0].alternatives.map(alternative => alternative.text)
+      detected_source_language: sourceLang.toUpperCase(),
+      data: response.data.result.texts[0].chunks[0].sentences[0].text,
+      alternatives: response.data.result.texts[0].alternatives.map(alternative => alternative.text),
+      method: "Free"
     };
-    if (printResult) {
-      console.log(result+'\n');
-    }
+    if(printResult) console.log(result+'\n');
     return result;
   } catch (err) {
     console.error(err, err.stack);
