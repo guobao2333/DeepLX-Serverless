@@ -1,5 +1,4 @@
 import axios from 'axios';
-import lodash from 'lodash';
 import { brotliDecompress } from 'zlib';
 
 const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc'/*,

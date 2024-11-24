@@ -1,11 +1,11 @@
 import express from 'express';
-import 'dotenv/config';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 import { brotliCompress } from 'zlib';
 import { translate } from 'translate.js';
+import'dotenv/config';
 
 // 解析参数
 const argv = yargs(hideBin(process.argv))
