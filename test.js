@@ -1,4 +1,4 @@
-import { translate } from './translate.js';
+import { translate } from 'src/translate.js';
 
 (async () => {
 /**

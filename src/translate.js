@@ -2,7 +2,6 @@ import axios from 'axios';
 import lodash from 'lodash';
 import { brotliDecompress } from 'zlib';
 
-
 const DEEPL_BASE_URL = 'https://www2.deepl.com/jsonrpc'/*,
   DEEPL_PRO_URL = 'https://api.deepl.com',
   DEEPL_FREE_URL = 'https://api-free.deepl.com'*/;
@@ -28,8 +27,10 @@ function getICount(translateText) {
   return (translateText || '').split('i').length - 1;
 }
 
-function getRandomNumber() {
-  return lodash.random(8300000, 8399998) * 1000;
+function getRandomInt(min=8300000, max=8399998) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return (Math.floor(Math.random() * (max - min + 1)) + min) * 1000;
 }
 
 function getTimestamp(iCount) {
@@ -49,21 +50,21 @@ async function translate(
   printResult = false,
 ) {
   const iCount = getICount(text);
-  const id = getRandomNumber();
+  const id = getRandomInt();
 
   alternativeCount = Math.max(Math.min(3, alternativeCount), 0);
 
   const postData = {
-    jsonrpc: '2.0',
-    method: 'LMT_split_text',
+    jsonrpc: "2.0",
+    method: "LMT_split_text",
     params: {
       texts: [text],
       commonJobParams: {
-        mode: 'translate',
-        textType: 'plaintext'
+        mode: "translate",
+        textType: "plaintext"
       },
       lang: {
-        lang_user_selected: sourceLang.toUpperCase(),
+        lang_user_selected: "auto",
         lang_computed: targetLang.toUpperCase()
       }/*,
       timestamp: getTimestamp(iCount)*/
@@ -73,11 +74,11 @@ async function translate(
 
   let postDataStr = JSON.stringify(postData);
 
-  if ((id + 5) % 29 === 0 || (id + 3) % 13 === 0) {
-    postDataStr = postDataStr.replace('"method":"', '"method" : "');
-  } else {
-    postDataStr = postDataStr.replace('"method":"', '"method": "');
-  }
+  // if ((id + 5) % 29 === 0 || (id + 3) % 13 === 0) {
+    // postDataStr = postDataStr.replace('"method":"', '"method" : "');
+  // } else {
+    // postDataStr = postDataStr.replace('"method":"', '"method": "');
+  // }
 
   try {
     const response = await axios.post(DEEPL_BASE_URL, postDataStr, {

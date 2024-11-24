@@ -1,5 +1,4 @@
 import express from 'express';
-import fetch from 'node-fetch';
 import { post, get } from '../server.js';
 
 const app = express();
