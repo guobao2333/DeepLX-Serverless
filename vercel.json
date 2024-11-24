@@ -1,4 +1,7 @@
 {
+  "build": {
+    "command": "mv src/ api/"
+  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/index.js" }
   ]
