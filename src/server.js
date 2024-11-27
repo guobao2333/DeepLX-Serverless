@@ -3,8 +3,8 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
-import { brotliCompress } from 'zlib';
-import { translate } from 'translate.js';
+import { brotliCompress, brotliDecompress } from 'zlib';
+import { translate } from './translate.js';
 import'dotenv/config';
 
 // 解析参数
@@ -50,7 +50,7 @@ app.get('/', async (req, res) => await get(req, res));
 async function post(req, res) {
   const startTime = Date.now();
 
-  let { text, source_lang, target_lang, alt_count } = req.body,
+  let { text, source_lang, target_lang, alt_count } = req.body;
   source_lang = source_lang.toUpperCase();
   target_lang = target_lang.toUpperCase();
 
@@ -77,8 +77,14 @@ async function post(req, res) {
 
   try {
     const result = await translate(text, source_lang, target_lang, alt_count);
+    /*result = brotliDecompress(result, (err, decompressedData) => {
+    if (err) console.error(err);
+    return decompressedData;
+  });*/
+
     const duration = Date.now() - startTime; // 计算处理时间
-    if(result.data == "") {
+    console.log(result)
+    if(result == "") {
       console.error(`[ERROR] ${new Date().toISOString()} | POST "translate" | 500 | ${error.message} | ${duration}ms`);
       res.status(500).json({
         code: 500,
@@ -90,25 +96,30 @@ async function post(req, res) {
 
     const responseData = {
       code: 200,
+      id: result.id,
       data: result.data, // 取第一个翻译结果
-      id: Math.floor(Math.random() * 10000000000), // 生成一个随机 ID
       method: "Free",
-      source_lang,
+      source_lang: result.source_lang,
       target_lang,
       alternatives: result.alternatives
     };
 
-    brotliCompress(responseData, (err, compressedData) => {
+    /*brotliCompress(responseData, (err, compressedData) => {
       if (err) {
         console.error('压缩错误: '+err);
         res.json(responseData);
-      } else {
-        res.json(compressedData);
-      }
-    });
+      } else res.json(compressedData);
+    });*/
+
+    res.json(responseData);
 
   } catch (err) {
     console.error(err, err.stack);
+    return res.status(500).json({
+      code: 500,
+      message: "Translation failed",
+      error: error.message
+    });
   }
 };
 
@@ -121,24 +132,22 @@ async function get(req, res) {
 
 function check_cors(arg) {
   if (arg === undefined) return;
-  if (typeof arg === 'string' || typeof arg === 'boolean') {
-    return arg;
-  }
+  if (typeof arg === 'string' || typeof arg === 'boolean') return arg;
+
   console.error("ParamTypeError: \x1b[33m'"+arg+"'\x1b[31m, origin should be Boolean or String.\n\x1b[0meg: \x1b[32m'*' or true or RegExp");
   process.exit(1);
 }
 
 function check_port(arg) {
-  if (typeof arg === 'number' && !isNaN(arg) && Number.isInteger(arg) && arg >= 0 && arg <= 65535) {
-    return arg;
-  }
+  if (typeof arg === 'number' && !isNaN(arg) && Number.isInteger(arg) && arg >= 0 && arg <= 65535) return arg;
+
   console.warn('WARNING:\x1b[0m port should be >= 0 and < 65536.\nUsed default value instead: 6119\n');
   return 6119;
 }
 
 // 启动本地服务器
 app.listen(PORT, () => {
-  console.log(`Server is running and listening on http://localhost:${PORT}`);
+  console.log(`Server is running and listening on http://localhost:${PORT}/translate`);
 });
 
 export { post, get };
