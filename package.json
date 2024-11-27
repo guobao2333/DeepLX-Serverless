@@ -1,6 +1,6 @@
 {
   "name": "deeplx-serverless",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "DeepL free API for Serverless",
   "type": "module",
   "main": "server.js",
@@ -18,7 +18,9 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "node test.js"
+    "test": "node test.js",
+    "start:sl": "node src/index.js",
+    "test:post": "node test_post.js"
   },
   "dependencies": {
     "axios": "^1.7.4",
