@@ -1,8 +1,9 @@
 # DeepLX Serverless
 
-**本项目在[LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)的基础上进行重构。**
+***本项目3.0版本开始完全基于[OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)和DeepL网页端API进行重写。***  
+**2.0及之前版本在[LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)的基础上进行重构。**
 
-DeepLX Serverless是一个基于DeepL翻译无需令牌的网页API的无服务器函数部署版本，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
+DeepLX Serverless是一个基于DeepL翻译且无需令牌的网页API的Serverless版本，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
 
 请勿滥用本项目！如果您有大量内容需要翻译，请购买DeepL的付费服务，项目使用的网页版接口会受到DeepL政策限制。
 
@@ -50,27 +51,28 @@ npm run start -- -c
 💡使用`-h`来获取所有参数。
 
 ## How To Use | 如何使用
+### Http Call | 网络请求
 
 ```bash
 curl -X POST 'http://localhost:6119/translate' -H 'Content-Type: application/json' -d '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
 ```
 
-项目Wiki： [English](https://github.com/guobao2333/DeepLX-Serverless/wiki/API-Parameters) | [简体中文](https://github.com/guobao2333/DeepLX-Serverless/wiki/API-%E5%8F%82%E6%95%B0)
+API Wiki： [English](https://github.com/guobao2333/DeepLX-Serverless/wiki/API-Parameters) | [简体中文](https://github.com/guobao2333/DeepLX-Serverless/wiki/API-%E5%8F%82%E6%95%B0)
 
-### Other Call | 集成使用
+### Internal Call | 集成使用
 
 运行`npm test`来测试翻译接口。还可以集成到你的项目中来使用DeepL翻译服务。
 
 简单的示例：
 ```javascript
 import { translate } from './translate.js';
-translate('你好，世界！', 'zh', 'en', 3)
+translate('how are you?', 'en', 'zh', '', false, false)
 .then(result => {
   console.log(result)
 });
 ```
 
-示例仅返回翻译内容，获取请求相关结果仍需使用`POST`，详细参数请查看`test.js`
+详细参数请查看本项目的wiki。
 
 ## Star History | 收藏趋势
 
