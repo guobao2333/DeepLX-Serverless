@@ -3,6 +3,7 @@
 
 # backup
 *.bak
+src/translate_old.js
 
 # Logs
 logs
