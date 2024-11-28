@@ -6,7 +6,7 @@
       "config": { "zeroConfig": false }
     }
   ],
-  "outputDirectory": "api"
+  "outputDirectory": "api",
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/index.js" }
   ]
