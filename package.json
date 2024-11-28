@@ -17,6 +17,7 @@
     "node": ">=18"
   },
   "scripts": {
+    "build:vercel": "mv src/* api/",
     "start": "node src/server.js",
     "test": "node test.js",
     "start:sl": "node src/index.js",
