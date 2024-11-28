@@ -59,8 +59,8 @@ async function post(req, res) {
     const duration = Date.now() - startTime;
     console.log(`[WARN] ${new Date().toISOString()} | POST "translate" | 400 | Bad Request | ${duration}ms`);
     return res.status(400).json({
-      "code": 400,
-      "message": "Bad Request"
+      code: 400,
+      message: "Bad Request"
     });
   }
 
@@ -69,27 +69,28 @@ async function post(req, res) {
     const duration = Date.now() - startTime;
     console.log(`[LOG] ${new Date().toISOString()} | POST "translate" | 405 | Alternative Not Allowed | ${duration}ms`);
     return res.status(405).json({
-      "code": 405,
-      "message": "Alternative Translate Not Allowed"
+      code: 405,
+      message: "Alternative Translate Not Allowed"
     });
     // alt_count = 0;
   }
 
   try {
-    const result = await translate(text, source_lang, target_lang, alt_count);
+    const result = await translate(text, source_lang, target_lang);
+    // const result = await translate(text, source_lang, target_lang, alt_count);
     /*result = brotliDecompress(result, (err, decompressedData) => {
     if (err) console.error(err);
     return decompressedData;
   });*/
 
     const duration = Date.now() - startTime; // 计算处理时间
-    console.log(result)
+    // console.log(result);
     if(result == "") {
       console.error(`[ERROR] ${new Date().toISOString()} | POST "translate" | 500 | ${error.message} | ${duration}ms`);
       res.status(500).json({
         code: 500,
         message: "Translation failed",
-        error: error.message
+        error: result.statusText
       });
     }
     console.log(`[LOG] ${new Date().toISOString()} | POST "translate" | 200 | ${duration}ms`);
@@ -118,7 +119,7 @@ async function post(req, res) {
     return res.status(500).json({
       code: 500,
       message: "Translation failed",
-      error: error.message
+      error: err.message
     });
   }
 };

@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 axios.post('http://localhost:6119/translate', {
-  "text": "你好，世界！",
-  "source_lang": "zh",
-  "target_lang": "en"
+  "text": "hello, world!",
+  "source_lang": "en",
+  "target_lang": "zh",
+  "alt_count": 2
 }, {
   headers: {"Content-Type": "application/json"}
 })

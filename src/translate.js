@@ -13,7 +13,7 @@ function formatPostString(postData) {
   return body;
 }
 
-async function sendRequest(postData, urlMethod, dlSession) {
+async function sendRequest(postData, urlMethod, dlSession, printResult) {
   const urlFull = `${baseURL}/jsonrpc?client=chrome-extension,1.28.0&method=${encodeURIComponent(urlMethod)}`;
 
   const headers = {
@@ -41,7 +41,7 @@ async function sendRequest(postData, urlMethod, dlSession) {
     const response = await axios.post(urlFull, postData, {
       headers: headers
     });
-    // console.log(response);
+    // console.log(response.data);
 
     if (response.headers['content-encoding'] === 'br') {
       const decompressed = brotliDecompress(response.data, (err, data) => {
@@ -56,7 +56,7 @@ async function sendRequest(postData, urlMethod, dlSession) {
   }
 }
 
-async function splitText(text, tagHandling, dlSession) {
+async function splitText(text, tagHandling, dlSession, printResult) {
   const postData = {
     jsonrpc: '2.0',
     method: 'LMT_split_text',
@@ -69,18 +69,26 @@ async function splitText(text, tagHandling, dlSession) {
     }
   };
 
-  return await sendRequest(postData, 'LMT_split_text', dlSession);
+  return await sendRequest(postData, 'LMT_split_text', dlSession, printResult);
 }
 
 // 执行翻译任务
 async function translate(text, sourceLang, targetLang, dlSession, tagHandling, printResult) {
-  if (text === '') {
+  try {
+  if (!text) {
     throw new Error('No text to translate');
   }
 
   // 分割文本
-  const splitResult = await splitText(text, tagHandling === 'html' || tagHandling === 'xml', dlSession);
-  console.log(splitResult);
+  const splitResult = await splitText(text, tagHandling === 'html' || tagHandling === 'xml', dlSession, printResult);
+  // console.log(splitResult);
+  
+  if (splitResult.code == 429) {
+    throw {
+      code: splitResult.code,
+      message: splitResult.data.error
+    }
+  }
 
   // 获取检测到的语言
   if (sourceLang === 'auto' || sourceLang === '') {
@@ -100,9 +108,9 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
       raw_en_context_before: contextBefore,
       raw_en_context_after: contextAfter,
       sentences: [{
-          prefix: sentence.prefix,
-          text: sentence.text,
-          id: index + 1
+        prefix: sentence.prefix,
+        text: sentence.text,
+        id: index + 1
       }]
     };
   });
@@ -130,22 +138,19 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
     }
   };
 
-  const result = await sendRequest(postData, 'LMT_handle_jobs', dlSession);
+  const response = await sendRequest(postData, 'LMT_handle_jobs', dlSession, printResult);
 
-  let alternatives = [],
-      translatedText = '';
+  let alternatives = [], translatedText = '';
 
   // 获取备选翻译
-  if (result.result.translations.length > 0) {
-    const alternatives = result.result.translations.flatMap(translation => {
-      return translation.beams.length > 1 ? translation.beams.slice(1).map(beam => beam.sentences[0].text) : [];
+  if (response.result.translations.length > 0) {
+    response.result.translations[0].beams.forEach(beam => {
+      alternatives.push(beam.sentences[0].text);
     });
   }
   // 获取翻译
-  for (const translation of result.result.translations) {
-    translatedText += translation.beams[0].sentences[0].text + ' ';
-  }
-  translatedText = translatedText.trim();
+  translatedText = response.result.translations[0].beams[0].sentences[0].text;
+  alternatives.shift();
 
   if (!translatedText) {
     throw new Error('Translation failed');
@@ -154,7 +159,7 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
   const ret = {
     code: 200,
     id: postData.id,
-    method: dlSession ? 'Pro' : 'Free',
+    method: "Free",
     data: translatedText,
     alternatives: alternatives,
     source_lang: sourceLang.toUpperCase(),
@@ -162,6 +167,9 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
   }
   if(printResult) console.log(ret);
   return ret;
+  } catch(err) {
+    return err;
+  }
 }
 
 export { translate };
