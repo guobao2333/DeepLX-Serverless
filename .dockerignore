@@ -1,5 +1,8 @@
 # Project
 README.md
+test.js
+test_post.js
+src/translate_old.js
 node_modules/
 
 # git
@@ -8,9 +11,4 @@ node_modules/
 .gitignore
 
 # vercel
-api/
 vercel.json
-
-# netlify
-functions/
-netlify.toml

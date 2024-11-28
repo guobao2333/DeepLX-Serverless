@@ -51,11 +51,9 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: |
-          type=schedule,pattern={{date 'YYYY/MM/DD-HH:mm' tz='Asia/Shanghai'}}
           type=semver,pattern={{version}}
           type=ref,event=branch
-          type=ref,event=pr
-          type=raw,value=${{ github.ref }},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+          type=raw,value=${{ format('YYYY/MM/DD-HH:mm', 'now', 'Asia/Shanghai') }},enable=${{ github.event.ref_type == 'tag' }}
           type=raw,value=latest,enable=${{ github.event.ref_type == 'tag' }}
 
     # Build and push Docker image with Buildx (don't push on PR)
