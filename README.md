@@ -8,10 +8,13 @@ DeepLX Serverless是一个基于DeepL翻译且无需令牌的网页API的Serverl
 请勿滥用本项目！如果您有大量内容需要翻译，请购买DeepL的付费服务，项目使用的网页版接口会受到DeepL政策限制。
 
 ## Prerequisites | 准备工作
+> [!IMPORTANT]
+> 有时`main`分支的合并可能不及时，或者你希望提前体验新功能，请切换到`dev`分支获取代码。
+
 - 支持 `Nodejs ≥18` 或 `Docker` 或 `Serverless Function` 的服务器
 - (可选) 拥有[Vercel](https://vercel.com)的账号
 
-## Deploy | 部署
+### Deploy | 部署
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
 
@@ -51,13 +54,14 @@ npm run start -- -c
 💡使用`-h`来获取所有参数。
 
 ## How To Use | 如何使用
+
+* 详细调用参数请查看[项目Wiki](https://github.com/guobao2333/DeepLX-Serverless/wiki)。
+
 ### Http Call | 网络请求
 
 ```bash
 curl -X POST 'http://localhost:6119/translate' -H 'Content-Type: application/json' -d '{"text": "你好，世界！", "source_lang": "zh", "target_lang": "en"}'
 ```
-
-API Wiki： [English](https://github.com/guobao2333/DeepLX-Serverless/wiki/API-Parameters) | [简体中文](https://github.com/guobao2333/DeepLX-Serverless/wiki/API-%E5%8F%82%E6%95%B0)
 
 ### Internal Call | 集成使用
 
@@ -72,8 +76,6 @@ translate('how are you?', 'en', 'zh', '', false, false)
 });
 ```
 
-详细参数请查看本项目的wiki。
-
 ## Star History | 收藏趋势
 
 <a href="https://star-history.com/#guobao2333/DeepLX-Serverless&Date">
@@ -85,9 +87,9 @@ translate('how are you?', 'en', 'zh', '', false, false)
 </a>
 
 ## Contribute | 贡献
-1. 先切换到`dev`分支
-2. 提交你的更改
-3. 打开一个`Pull requests`
+1. 获取`dev`或`main`分支的代码
+2. 提交你的更改并描述提交内容
+3. 打开一个`Pull Requests`
 
 如果你是第一次贡献，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)
 
