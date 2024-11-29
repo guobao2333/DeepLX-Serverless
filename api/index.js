@@ -1,5 +1,5 @@
 import express from 'express';
-import { post, get } from './server.js';
+import { post, get } from './src/server.js';
 
 const app = express();
 
