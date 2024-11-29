@@ -1,12 +1,4 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node",
-      "config": { "zeroConfig": false }
-    }
-  ],
-  "outputDirectory": "api",
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/index.js" }
   ]

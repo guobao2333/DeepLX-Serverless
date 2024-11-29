@@ -1,6 +1,6 @@
 {
   "name": "deeplx-serverless",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "DeepL free API for Serverless",
   "type": "module",
   "main": "server.js",
@@ -17,7 +17,6 @@
     "node": ">=18"
   },
   "scripts": {
-    "build:vercel": "mv src/* api/",
     "start": "node src/server.js",
     "test": "node test.js",
     "start:sl": "node src/index.js",
