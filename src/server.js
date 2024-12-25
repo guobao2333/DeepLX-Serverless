@@ -83,9 +83,18 @@ async function post(req, res) {
     return decompressedData;
   });*/
 
+    if(result.status == 429) {
+      console.error(`[WARN] ${new Date().toISOString()} | POST "translate" | 429 | ${error.message} | ${duration}ms`);
+      res.status(429).json({
+        code: 429,
+        message: "Too many requests",
+        error: result.statusText
+      });
+    }
+    
     const duration = Date.now() - startTime; // 计算处理时间
     // console.log(result);
-    if(result == "") {
+    if(result == "" || result.data == "") {
       console.error(`[ERROR] ${new Date().toISOString()} | POST "translate" | 500 | ${error.message} | ${duration}ms`);
       res.status(500).json({
         code: 500,
@@ -96,7 +105,7 @@ async function post(req, res) {
     console.log(`[LOG] ${new Date().toISOString()} | POST "translate" | 200 | ${duration}ms`);
 
     const responseData = {
-      code: 200,
+      code: result.code,
       id: result.id,
       data: result.data, // 取第一个翻译结果
       method: "Free",
@@ -125,7 +134,7 @@ async function post(req, res) {
 };
 
 async function get(req, res) {
-  res.json({
+  res.status(200).json({
     code: 200,
     message: "Welcome to the DeepL Free API. Please POST to '/translate'. Visit 'https://github.com/guobao2333/DeepLX-Serverless' for more information."
   });

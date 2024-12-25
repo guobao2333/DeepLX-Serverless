@@ -35,7 +35,7 @@ async function sendRequest(postData, urlMethod, dlSession, printResult) {
     ...(dlSession && {'Cookie': `dl_session=${dlSession}`})
   };
   postData = formatPostString(postData);
-  // console.log(postData);
+  // console.warn(postData);
 
   try {
     const response = await axios.post(urlFull, postData, {
@@ -50,9 +50,15 @@ async function sendRequest(postData, urlMethod, dlSession, printResult) {
       });
       return JSON.parse(decompressed.toString());
     }
+    if(response.status == 429) {
+      throw {
+        code: splitResult.code,
+        message: splitResult.data.error
+      }
+    }
     return response.data;
   } catch (err) {
-    console.error(err);
+    throw new Error(err);
   }
 }
 
@@ -81,7 +87,7 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
 
   // 分割文本
   const splitResult = await splitText(text, tagHandling === 'html' || tagHandling === 'xml', dlSession, printResult);
-  // console.log(splitResult);
+  // console.warn(splitResult);
   
   if (splitResult.code == 429) {
     throw {
@@ -157,7 +163,7 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
   }
 
   const ret = {
-    code: 200,
+    code: postData.status,
     id: postData.id,
     method: "Free",
     data: translatedText,
