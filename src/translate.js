@@ -51,6 +51,7 @@ async function sendRequest(postData, urlMethod, dlSession, printResult) {
       });
       return JSON.parse(decompressed.toString());
     }
+    return response.data;
   } catch (err) {
     if (err.response.status === 429) {
       return {
@@ -62,7 +63,6 @@ async function sendRequest(postData, urlMethod, dlSession, printResult) {
       throw err;
     }
   }
-  return response.data;
 }
 
 async function splitText(text, tagHandling, dlSession, printResult) {
