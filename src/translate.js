@@ -95,7 +95,7 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
 
   // 分割文本
   const splitResult = await splitText(text, tagHandling === 'html' || tagHandling === 'xml', dlSession, printResult);
-  console.warn(splitResult);
+  // console.warn(splitResult);
   
   if (splitResult.code === 429) {
     return {

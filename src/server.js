@@ -72,7 +72,6 @@ async function post(req, res) {
       code: 405,
       message: "Alternative Translate Not Allowed"
     });
-    // alt_count = 0;
   }
 
   try {
