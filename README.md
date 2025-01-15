@@ -1,5 +1,9 @@
 # DeepLX Serverless
 
+<p align="center">
+<a href="https://github.com/guobao2333/MT-syntax-highlight"><img alt="Repository" src="https://img.shields.io/badge/Github-%230A0A0A.svg?&style=flat-square&logo=Github&logoColor=white"/></a>
+</p>
+
 ***本项目3.0版本开始完全基于[OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)和DeepL网页端API进行重写。***  
 **2.0及之前版本在[LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)的基础上进行重构。**
 
@@ -69,7 +73,7 @@ curl -X POST 'http://localhost:6119/translate' -H 'Content-Type: application/jso
 
 简单的示例：
 ```javascript
-import { translate } from './translate.js';
+import { translate } from './src/translate.js';
 translate('how are you?', 'en', 'zh', '', false, false)
 .then(result => {
   console.log(result)
