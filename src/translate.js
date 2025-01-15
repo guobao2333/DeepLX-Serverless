@@ -41,25 +41,28 @@ async function sendRequest(postData, urlMethod, dlSession, printResult) {
     const response = await axios.post(urlFull, postData, {
       headers: headers
     });
-    // console.log(response.data);
-
+  
     if (response.headers['content-encoding'] === 'br') {
-      const decompressed = brotliDecompress(response.data, (err, data) => {
-        if (err) console.error(err);
-        return data;
+      const decompressed = await new Promise((resolve, reject) => {
+        brotliDecompress(response.data, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
       });
       return JSON.parse(decompressed.toString());
     }
-    if(response.status == 429) {
-      throw {
-        code: splitResult.code,
-        message: splitResult.data.error
-      }
-    }
-    return response.data;
   } catch (err) {
-    throw new Error(err);
+    if (err.response.status === 429) {
+      return {
+        code: err.response.status,
+        message: 'Too Many Requests'
+      };
+    } else { 
+      console.error(`[ERROR] sendRequest: ${err.message}`);
+      throw err;
+    }
   }
+  return response.data;
 }
 
 async function splitText(text, tagHandling, dlSession, printResult) {
@@ -75,7 +78,12 @@ async function splitText(text, tagHandling, dlSession, printResult) {
     }
   };
 
-  return await sendRequest(postData, 'LMT_split_text', dlSession, printResult);
+  try {
+    return await sendRequest(postData, 'LMT_split_text', dlSession, printResult);
+  } catch (err) {
+    console.error("[ERROR] splitText:", err);
+    throw new Error(`splitText failed: ${err.message || err}`); 
+  }
 }
 
 // 执行翻译任务
@@ -87,12 +95,12 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
 
   // 分割文本
   const splitResult = await splitText(text, tagHandling === 'html' || tagHandling === 'xml', dlSession, printResult);
-  // console.warn(splitResult);
+  console.warn(splitResult);
   
-  if (splitResult.code == 429) {
-    throw {
+  if (splitResult.code === 429) {
+    return {
       code: splitResult.code,
-      message: splitResult.data.error
+      message: splitResult.message
     }
   }
 
@@ -173,8 +181,9 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
   }
   if(printResult) console.log(ret);
   return ret;
-  } catch(err) {
-    return err;
+  } catch (err) {
+    console.error("[ERROR] translate:", err);
+    throw new Error(err.message || err);
   }
 }
 

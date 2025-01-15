@@ -83,19 +83,19 @@ async function post(req, res) {
     return decompressedData;
   });*/
 
-    if(result.status == 429) {
-      console.error(`[WARN] ${new Date().toISOString()} | POST "translate" | 429 | ${error.message} | ${duration}ms`);
+    let duration = Date.now() - startTime;
+    if(result.code === 429) {
+      console.error(`[WARN] ${new Date().toISOString()} | POST "translate" | 429 | ${result.message} | ${duration}ms`);
       res.status(429).json({
         code: 429,
-        message: "Too many requests",
-        error: result.statusText
+        message: result.message
       });
     }
     
-    const duration = Date.now() - startTime; // 计算处理时间
+    duration = Date.now() - startTime;
     // console.log(result);
     if(result == "" || result.data == "") {
-      console.error(`[ERROR] ${new Date().toISOString()} | POST "translate" | 500 | ${error.message} | ${duration}ms`);
+      console.error(`[ERROR] ${new Date().toISOString()} | POST "translate" | 500 | ${result.message} | ${duration}ms`);
       res.status(500).json({
         code: 500,
         message: "Translation failed",
@@ -125,10 +125,9 @@ async function post(req, res) {
 
   } catch (err) {
     console.error(err, err.stack);
-    return res.status(500).json({
+    res.status(500).json({
       code: 500,
-      message: "Translation failed",
-      error: err.message
+      message: err.message
     });
   }
 };
