@@ -26,6 +26,7 @@ async function sendRequest(postData, urlMethod, dlSession, printResult) {
     Pragma: 'no-cache',
     'Cache-Control': 'no-cache'
   };
+  if (dlSession) headers['Cookie'] = `dl_session=${dlSession}`;
   postData = formatPostString(postData);
   // console.warn(postData);
 
