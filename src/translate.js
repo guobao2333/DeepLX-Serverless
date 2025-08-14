@@ -13,7 +13,7 @@ function formatPostString(postData) {
   return body;
 }
 
-async function sendRequest(postData, urlMethod, dlSession, printResult) {
+async function sendRequest(postData, urlMethod, dlSession, tagHandling, printResult) {
   const urlFull = `${baseURL}/jsonrpc?`;
 
   const headers = {
@@ -168,10 +168,11 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
     id: postData.id,
     method: "Free",
     data: translatedText,
-    alternatives: alternatives,
     source_lang: sourceLang.toUpperCase(),
-    target_lang: targetLang.toUpperCase()
+    target_lang: targetLang.toUpperCase(),
+    alternatives: alternatives
   }
+  if(printResult) console.log(response);
   if(printResult) console.log(ret);
   return ret;
   } catch (err) {

@@ -50,7 +50,7 @@ app.get('/', async (req, res) => await get(req, res));
 async function post(req, res) {
   const startTime = Date.now();
 
-  let { text, source_lang, target_lang alt_count } = req.body;
+  let { text, source_lang, target_lang, alt_count } = req.body;
   source_lang = source_lang.toUpperCase();
   target_lang = target_lang.toUpperCase();
 
@@ -65,7 +65,7 @@ async function post(req, res) {
   }
 
   try {
-    const result = await translate(text, source_lang, target_lang);
+    const result = await translate(text, source_lang, target_lang, false);
     // const result = await translate(text, source_lang, target_lang);
     /*result = brotliDecompress(result, (err, decompressedData) => {
     if (err) console.error(err);
