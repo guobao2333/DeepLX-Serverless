@@ -17,7 +17,7 @@ const argv = yargs(hideBin(process.argv))
   })
   .option('alt', {
     alias: 'a',
-    describe: 'Allow request alternatives translation',
+    describe: 'Return alternatives translation',
     type: 'boolean',
     default: Boolean(process.env.ALTERNATIVE) || true
   })
@@ -33,7 +33,7 @@ const argv = yargs(hideBin(process.argv))
 // 定义配置
 const app = express(),
   PORT = argv.port,
-  allowAlternative = argv.alt,
+  returnAlternative = argv.alt,
   CORS = {
     origin: argv.cors,
     methods: 'GET,POST',
@@ -55,7 +55,7 @@ async function post(req, res) {
   target_lang = target_lang.toUpperCase();
 
   // 检查请求体
-  if (!req.body || !text || !target_lang || (alt_count !== undefined && typeof alt_count !== 'number')) {
+  if (!req.body || !text || !target_lang || alt_count !== undefined && typeof alt_count !== 'number' || alt_count > 3 || alt_count < 0) {
     const duration = Date.now() - startTime;
     console.log(`[WARN] ${new Date().toISOString()} | POST "translate" | 400 | Bad Request | ${duration}ms`);
     return res.status(400).json({
@@ -64,19 +64,9 @@ async function post(req, res) {
     });
   }
 
-  // 是否允许备选翻译
-  if (!allowAlternative && alt_count !== undefined) {
-    const duration = Date.now() - startTime;
-    console.log(`[LOG] ${new Date().toISOString()} | POST "translate" | 405 | Alternative Not Allowed | ${duration}ms`);
-    return res.status(405).json({
-      code: 405,
-      message: "Alternative Translate Not Allowed"
-    });
-  }
-
   try {
-    const result = await translate(text, source_lang, target_lang);
-    // const result = await translate(text, source_lang, target_lang, alt_count);
+    const result = await translate(text, source_lang, target_lang, alt_count);
+    // const result = await translate(text, source_lang, target_lang);
     /*result = brotliDecompress(result, (err, decompressedData) => {
     if (err) console.error(err);
     return decompressedData;
@@ -106,11 +96,11 @@ async function post(req, res) {
     const responseData = {
       code: result.code,
       id: result.id,
-      data: result.data, // 取第一个翻译结果
+      data: result.data,
       method: "Free",
       source_lang: result.source_lang,
       target_lang,
-      alternatives: result.alternatives
+      alternatives: (returnAlternative ? result.alternatives : "[]")
     };
 
     /*brotliCompress(responseData, (err, compressedData) => {

@@ -1,15 +1,13 @@
 # DeepLX Serverless
 
 <p align="center">
-<a href="https://github.com/guobao2333/MT-syntax-highlight"><img alt="Repository" src="https://img.shields.io/badge/Github-%230A0A0A.svg?&style=flat-square&logo=Github&logoColor=white"/></a>
+<a href="https://github.com/guobao2333/DeepLX-Serverless"><img alt="Repository" src="https://img.shields.io/badge/Github-%230A0A0A.svg?&style=flat-square&logo=Github&logoColor=white"/></a>
 </p>
 
-***本项目3.0版本开始完全基于[OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)和DeepL网页端API进行重写。***  
+DeepLX Serverless是一个基于DeepL翻译网页版且无需令牌的Serverless版本，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
+
+**3.0版本开始完全基于[OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)和DeepL网页版数据进行重写。**  
 **2.0及之前版本在[LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)的基础上进行重构。**
-
-DeepLX Serverless是一个基于DeepL翻译且无需令牌的网页API的Serverless版本，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
-
-请勿滥用本项目！如果您有大量内容需要翻译，请购买DeepL的付费服务，项目使用的网页版接口会受到DeepL政策限制。
 
 ## Prerequisites | 准备工作
 > [!IMPORTANT]
@@ -46,7 +44,7 @@ docker run -d -p 6119:6119 deeplxs
 
 ### Startup Parameters | 启动参数
 > [!IMPORTANT]
-> 此功能在 2.0.0 及以上版本中可用。
+> 此功能在 2.0.0 及以上版本中可用。  
 > 启动参数会覆盖`.env`
 
 有时你可能想在启动服务时添加参数。  
@@ -93,7 +91,7 @@ translate('how are you?', 'en', 'zh', '', false, false)
 ## Contribute | 贡献
 1. 获取`dev`或`main`分支的代码
 2. 提交你的更改并描述提交内容
-3. 打开一个`Pull Requests`
+3. 创建一个`Pull Requests`
 
 如果你是第一次贡献，那么请查看[《如何为开源做贡献》](https://opensource.guide/how-to-contribute/)
 
@@ -104,3 +102,8 @@ translate('how are you?', 'en', 'zh', '', false, false)
 1. [OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
 2. [LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)
 3. [bropines/Deeplx-vercel](https://github.com/bropines/Deeplx-vercel)
+
+## Disclaimer | 免责声明
+请勿依赖本项目，因基于DeepL网页版数据，可能随时罢工。如果您有大量内容需要翻译，请购买DeepL官方翻译API，DeepLXS始终受到DeepL政策限制。
+
+本项目目前处于开发状态，实现及其简陋，部分功能已编写文档不代表已实现。
