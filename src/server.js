@@ -50,12 +50,12 @@ app.get('/', async (req, res) => await get(req, res));
 async function post(req, res) {
   const startTime = Date.now();
 
-  let { text, source_lang, target_lang } = req.body;
+  let { text, source_lang, target_lang alt_count } = req.body;
   source_lang = source_lang.toUpperCase();
   target_lang = target_lang.toUpperCase();
 
   // 检查请求体
-  if (!req.body || !text || !target_lang) {
+  if (!req.body || !text || !target_lang || alt_count !== undefined && typeof alt_count !== 'number' || alt_count > 3 || alt_count < 0) {
     const duration = Date.now() - startTime;
     console.log(`[WARN] ${new Date().toISOString()} | POST "translate" | 400 | Bad Request | ${duration}ms`);
     return res.status(400).json({
@@ -96,7 +96,7 @@ async function post(req, res) {
     const responseData = {
       code: result.code,
       id: result.id,
-      data: result.data, // 取第一个翻译结果
+      data: result.data,
       method: "Free",
       source_lang: result.source_lang,
       target_lang,
