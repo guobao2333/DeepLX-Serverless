@@ -14,25 +14,17 @@ function formatPostString(postData) {
 }
 
 async function sendRequest(postData, urlMethod, dlSession, printResult) {
-  const urlFull = `${baseURL}/jsonrpc?client=chrome-extension,1.28.0&method=${encodeURIComponent(urlMethod)}`;
+  const urlFull = `${baseURL}/jsonrpc?`;
 
   const headers = {
     'Content-Type': 'application/json',
-    "User-Agent": "DeepLBrowserExtension/1.28.0 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
-    "Accept": "*/*",
-    "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh-HK;q=0.6,zh;q=0.5",
-    "Authorization": "None",
-    "Cache-Control": "no-cache",
-    "DNT": "1",
-    "Origin": "chrome-extension://cofdbpoegempjloogbagkncekinflcnj",
-    "Pragma": "no-cache",
-    "Priority": "u=1, i",
-    "Referer": "https://www.deepl.com/",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "none",
-    "Sec-GPC": "1",
-    ...(dlSession && {'Cookie': `dl_session=${dlSession}`})
+    'User-Agent': 'DeepLBrowserExtension/1.28.0 Mozilla/5.0',
+    Accept: '*/*',
+    'Accept-Language': 'en-US,en;q=0.9',
+    Origin: 'https://www.deepl.com',
+    Referer: 'https://www.deepl.com/',
+    Pragma: 'no-cache',
+    'Cache-Control': 'no-cache'
   };
   postData = formatPostString(postData);
   // console.warn(postData);
@@ -157,7 +149,7 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
   let alternatives = [], translatedText = '';
 
   // 获取备选翻译
-  if (response.result.translations.length > 0) {
+  if (response.result.translations != '' && response.result.translations.length > 0) {
     response.result.translations[0].beams.forEach(beam => {
       alternatives.push(beam.sentences[0].text);
     });
@@ -171,7 +163,7 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
   }
 
   const ret = {
-    code: postData.status,
+    code: postData.status || 200,
     id: postData.id,
     method: "Free",
     data: translatedText,
