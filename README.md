@@ -44,7 +44,7 @@ docker run -d -p 6119:6119 deeplxs
 
 ### Startup Parameters | 启动参数
 > [!IMPORTANT]
-> 此功能在 2.0.0 及以上版本中可用。
+> 此功能在 2.0.0 及以上版本中可用。  
 > 启动参数会覆盖`.env`
 
 有时你可能想在启动服务时添加参数。  
@@ -105,3 +105,5 @@ translate('how are you?', 'en', 'zh', '', false, false)
 
 ## Disclaimer | 免责声明
 请勿依赖本项目，因基于DeepL网页版数据，可能随时罢工。如果您有大量内容需要翻译，请购买DeepL官方翻译API，DeepLXS始终受到DeepL政策限制。
+
+本项目目前处于开发状态，实现及其简陋，部分功能已编写文档不代表已实现。

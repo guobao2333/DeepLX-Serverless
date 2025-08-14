@@ -24,9 +24,9 @@ async function sendRequest(postData, urlMethod, dlSession, tagHandling, printRes
     Origin: 'https://www.deepl.com',
     Referer: 'https://www.deepl.com/',
     Pragma: 'no-cache',
-    'Cache-Control': 'no-cache'
+    'Cache-Control': 'no-cache',
+    ...(dlSession && {'Cookie': `dl_session=${dlSession}`})
   };
-  if (dlSession) headers['Cookie'] = `dl_session=${dlSession}`;
   postData = formatPostString(postData);
   // console.warn(postData);
 
