@@ -4,7 +4,7 @@
 <a href="https://github.com/guobao2333/DeepLX-Serverless"><img alt="Repository" src="https://img.shields.io/badge/Github-%230A0A0A.svg?&style=flat-square&logo=Github&logoColor=white"/></a>
 </p>
 
-DeepLX Serverless是一个基于DeepL翻译网页版且无需令牌的Serverless版本，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
+DeepLX Serverless是一个基于DeepL网页版且无需令牌、无需账号开箱即用的翻译服务，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
 
 **3.0版本开始完全基于[OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)和DeepL网页版数据进行重写。**  
 **2.0及之前版本在[LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)的基础上进行重构。**
@@ -17,6 +17,8 @@ DeepLX Serverless是一个基于DeepL翻译网页版且无需令牌的Serverless
 - (可选) 拥有[Vercel](https://vercel.com)的账号
 
 ### Deploy | 部署
+> [!IMPORTANT]
+> 目前项目在Vercel上的服务疑似被DeepL屏蔽，如果您在Vercel上部署后使用也出现`code 429`，请创建一个`issues`报告问题。
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
 
@@ -59,6 +61,8 @@ npm run start -- -c
 
 * 详细调用参数请查看[项目Wiki](https://github.com/guobao2333/DeepLX-Serverless/wiki)。
 
+无需启动服务，运行`npm run test`即可测试翻译接口。
+
 ### Http Call | 网络请求
 
 ```bash
@@ -67,7 +71,7 @@ curl -X POST 'http://localhost:6119/translate' -H 'Content-Type: application/jso
 
 ### Internal Call | 集成使用
 
-运行`npm test`来测试翻译接口。还可以集成到你的项目中来使用DeepL翻译服务。
+除了一般网络请求之外，您还可以集成到你的项目中来使用DeepL翻译服务。
 
 简单的示例：
 ```javascript
@@ -104,6 +108,6 @@ translate('how are you?', 'en', 'zh', '', false, false)
 3. [bropines/Deeplx-vercel](https://github.com/bropines/Deeplx-vercel)
 
 ## Disclaimer | 免责声明
-请勿依赖本项目，因基于DeepL网页版数据，可能随时罢工。如果您有大量内容需要翻译，请购买DeepL官方翻译API，DeepLXS始终受到DeepL政策限制。
+请勿完全依赖本项目，由于基于DeepL网页版，因此可能随时罢工。如果您有大量内容需要翻译或有更多需求，请使用DeepL官方API，DeepLXS始终受到DeepL网页版政策限制。
 
-本项目目前处于开发状态，实现及其简陋，部分功能已编写文档不代表已实现。
+本项目目前处于开发状态，实现及其简陋，部分功能虽已编写文档但不代表已实现。
