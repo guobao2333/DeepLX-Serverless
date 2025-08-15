@@ -75,7 +75,7 @@ async function post(req, res) {
     let duration = Date.now() - startTime;
     if(result.code === 429) {
       console.error(`[WARN] ${new Date().toISOString()} | POST "translate" | 429 | ${result.message} | ${duration}ms`);
-      res.status(429).json({
+      return res.status(429).json({
         code: 429,
         message: result.message
       });
@@ -85,7 +85,7 @@ async function post(req, res) {
     // console.log(result);
     if(result == "" || result.data == "") {
       console.error(`[ERROR] ${new Date().toISOString()} | POST "translate" | 500 | ${result.message} | ${duration}ms`);
-      res.status(500).json({
+      return res.status(500).json({
         code: 500,
         message: "Translation failed",
         error: result.statusText
@@ -114,7 +114,7 @@ async function post(req, res) {
 
   } catch (err) {
     console.error(err, err.stack);
-    res.status(500).json({
+    return res.status(500).json({
       code: 500,
       message: err.message
     });
@@ -122,7 +122,7 @@ async function post(req, res) {
 };
 
 async function get(req, res) {
-  res.status(200).json({
+  return res.status(200).json({
     code: 200,
     message: "Welcome to the DeepL Free API. Please POST to '/translate'. Visit 'https://github.com/guobao2333/DeepLX-Serverless' for more information."
   });

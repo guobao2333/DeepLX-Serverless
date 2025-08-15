@@ -150,7 +150,7 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
   let alternatives = [], translatedText = '';
 
   // 获取备选翻译
-  if (response.result.translations != '' && response.result.translations.length > 0) {
+  if (response.result.translations.length > 0) {
     response.result.translations[0].beams.forEach(beam => {
       alternatives.push(beam.sentences[0].text);
     });
@@ -160,6 +160,7 @@ async function translate(text, sourceLang, targetLang, dlSession, tagHandling, p
   alternatives.shift();
 
   if (!translatedText) {
+    console.log(JSON.stringify(response));
     throw new Error('Translation failed');
   }
 
