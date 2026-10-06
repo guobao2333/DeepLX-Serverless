@@ -3,7 +3,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
-import { brotliCompress, brotliDecompress } from 'zlib';
 import { translate } from './translate.js';
 import'dotenv/config';
 
@@ -14,12 +13,6 @@ const argv = yargs(hideBin(process.argv))
     describe: 'Service port number',
     coerce: check_port,
     default: Number(process.env.PORT) || 6119
-  })
-  .option('alt', {
-    alias: 'a',
-    describe: 'Return alternatives translation',
-    type: 'boolean',
-    default: Boolean(process.env.ALTERNATIVE) || true
   })
   .option('cors', {
     alias: 'c',
@@ -33,7 +26,6 @@ const argv = yargs(hideBin(process.argv))
 // 定义配置
 const app = express(),
   PORT = argv.port,
-  returnAlternative = argv.alt,
   CORS = {
     origin: argv.cors,
     methods: 'GET,POST',
@@ -50,12 +42,12 @@ app.get('/', async (req, res) => await get(req, res));
 async function post(req, res) {
   const startTime = Date.now();
 
-  let { text, source_lang, target_lang, alt_count } = req.body;
+  let { text, source_lang, target_lang } = req.body;
   source_lang = source_lang.toUpperCase();
   target_lang = target_lang.toUpperCase();
 
   // 检查请求体
-  if (!req.body || !text || !target_lang || alt_count !== undefined && typeof alt_count !== 'number' || alt_count > 3 || alt_count < 0) {
+  if (!req.body || !text || !target_lang) {
     const duration = Date.now() - startTime;
     console.log(`[WARN] ${new Date().toISOString()} | POST "translate" | 400 | Bad Request | ${duration}ms`);
     return res.status(400).json({
@@ -65,12 +57,7 @@ async function post(req, res) {
   }
 
   try {
-    const result = await translate(text, source_lang, target_lang, alt_count);
-    // const result = await translate(text, source_lang, target_lang);
-    /*result = brotliDecompress(result, (err, decompressedData) => {
-    if (err) console.error(err);
-    return decompressedData;
-  });*/
+    const result = await translate(text, source_lang, target_lang);
 
     let duration = Date.now() - startTime;
     if(result.code === 429) {
@@ -100,15 +87,8 @@ async function post(req, res) {
       method: "Free",
       source_lang: result.source_lang,
       target_lang,
-      alternatives: (returnAlternative ? result.alternatives : "[]")
+      alternatives: []
     };
-
-    /*brotliCompress(responseData, (err, compressedData) => {
-      if (err) {
-        console.error('压缩错误: '+err);
-        res.json(responseData);
-      } else res.json(compressedData);
-    });*/
 
     res.json(responseData);
 
