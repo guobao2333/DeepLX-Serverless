@@ -1,13 +1,11 @@
-import axios from 'axios';
-
 /**
  * DeepL oneshot 新版接口
  */
 const DEEPL_URL = 'https://oneshot-free.www.deepl.com/v1/translate',
-      REQUEST_TIMEOUT_MS = 20000,
+      REQUEST_TIMEOUT_MS = 10000,
       MAX_TEXT_LENGTH = 1500;
 
-/** DeepL 目标语言（含区域变体），与 Java 版 DeepLConstant.TARGET_LANGUAGES 对应 */
+/** DeepL 目标语言（含区域变体） */
 const TARGET_LANGUAGES = [
   'en-US', 'en-GB',
   'zh-Hans', 'zh-Hant',
@@ -18,7 +16,7 @@ const TARGET_LANGUAGES = [
 ];
 
 /**
- * 翻译入口（oneshot 协议）。
+ * 翻译入口
  *
  * @param {string} text        待翻译文本
  * @param {string} sourceLang  源语言（"AUTO" / "" / "EN" / "ZH" ...）
@@ -26,11 +24,12 @@ const TARGET_LANGUAGES = [
  * @param {boolean} [printResult]
  */
 async function translate(text, sourceLang, targetLang, printResult) {
-  if (!text || typeof text !== 'string' || text.trim() === '') {
-    throw new Error('No text to translate');
+  if (typeof text !== 'string' || text.trim() === '') {
+    return res.status(400).json({ code: 400, message: 'Bad Request' });
   }
+
   if (text.length > MAX_TEXT_LENGTH) {
-    throw new Error(`Text too long: ${text.length} > ${MAX_TEXT_LENGTH}`);
+    return res.status(400).json({ code: 400, message: `Text too long: ${text.length} > ${MAX_TEXT_LENGTH}` });
   }
 
   const normalizedSource = normalizeSourceLanguage(sourceLang);
@@ -47,31 +46,52 @@ async function translate(text, sourceLang, targetLang, printResult) {
 
   if (printResult) console.log('[REQ]', JSON.stringify(postData));
 
+  let response;
   try {
-    const response = await axios.post(DEEPL_URL, postData, {
-      timeout: REQUEST_TIMEOUT_MS,
+    response = await fetch(DEEPL_URL, {
+      method: 'POST',
       headers: {
-        'Authorization': 'None',   // oneshot 无需鉴权
+        'Authorization': 'None', // oneshot 无需鉴权
         'Content-Type': 'application/json',
         'Accept': '*/*'
-      }
+      },
+      body: JSON.stringify(postData),
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
     });
-
-    return parseResponse(response, normalizedSource, normalizedTarget, printResult);
   } catch (err) {
-    const status = err.response?.status;
-    if (status === 429) {
-      return { code: 429, message: 'Too Many Requests' };
+    // 仅在网络错误 / 超时时抛异常
+    if (err.name === 'TimeoutError' || err.name === 'AbortError') {
+      const e = new Error('Upstream request timeout');
+      e.code = 'ETIMEDOUT';
+      e.name = 'TranslateError';
+      throw e;
     }
     console.error('[ERROR] translate:', err.message);
     throw err;
   }
+
+  // HTTP 状态判断
+  if (response.status === 429) {
+    return { code: 429, message: 'Too Many Requests' };
+  }
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`);
+  }
+
+  let body;
+  try {
+    body = await response.json();
+  } catch {
+    throw new Error('Response parse failure: invalid JSON');
+  }
+
+  return parseResponse(body, normalizedSource, normalizedTarget, printResult);
 }
 
-/** 解析 oneshot */
-function parseResponse(response, sourceLang, targetLang, printResult) {
-  const body = response.data;
-
+/** 解析 oneshot 返回数据 */
+function parseResponse(body, sourceLang, targetLang, printResult) {
   if (printResult) console.log('[RESP]', JSON.stringify(body));
 
   const translations = body?.translations;
@@ -106,7 +126,7 @@ function parseResponse(response, sourceLang, targetLang, printResult) {
 
 /**
  * 源语言标准化
- * - 空 / "auto" → "auto"
+ * - 空 → "auto"
  * - 含区域变体（"en-US"）→ 取基础语言 "en"
  */
 function normalizeSourceLanguage(input) {
@@ -141,7 +161,6 @@ function normalizeTargetLanguage(input) {
   }[trimmed.toLowerCase()];
 
   if (mapped) {
-    // 验证映射结果在列表内
     for (const lang of TARGET_LANGUAGES) {
       if (lang.toLowerCase() === mapped.toLowerCase()) return mapped;
     }
