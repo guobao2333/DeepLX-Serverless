@@ -4,13 +4,10 @@
 <a href="https://github.com/guobao2333/DeepLX-Serverless"><img alt="Repository" src="https://img.shields.io/badge/Github-%230A0A0A.svg?&style=flat-square&logo=Github&logoColor=white"/></a>
 </p>
 
-DeepLX Serverless是一个基于DeepL网页版且无需令牌的nodejs项目，与原项目[DeepLX](https://github.com/OwO-Network/DeepLX)(golang)的区别在于**利用了无服务器函数(边缘函数)请求IP不固定的特性**，有效避免了`Error 429`（不过嘛凡事总有例外¯\\\_(ツ)_/¯）
-
-**3.0版本开始完全基于[OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)及DeepL网页版数据进行重写。**  
-**2.0及之前版本在[LegendLeo/deeplx-serverless](https://github.com/LegendLeo/deeplx-serverless)的基础上进行重构。**
+DeepLX Serverless是一个基于DeepL网页版且无需(账号)令牌的轻量化NodeJS项目，完全使用JavaScript编写代码，这意味着您无需重新编译或打包，只需要安装依赖包即可开始运行！
 
 ## Prerequisites | 准备工作
-- 支持 `Nodejs ≥18` 或 `Docker` 或 `Serverless Function` 的服务器/设备
+- 支持 `Nodejs ≥22` 或 `Docker` 或 `Serverless Function` 的服务器/设备
 - (可选) 拥有[Vercel](https://vercel.com)的账号
 
 ### Deploy | 部署
@@ -40,17 +37,17 @@ docker run -d -p 6119:6119 deeplxs
 ```
 
 ### Startup Parameters | 启动参数
-> [!IMPORTANT]
-> 此功能在 2.0.0 及以上版本中可用。  
+> [!important]
 > 启动参数会覆盖`.env`
 
 有时你可能想在启动服务时添加参数。  
-比如添加一个`-c`参数来允许所有跨域请求：
+比如使用`-c`参数来允许所有跨域请求：
 ```bash
 npm run start -- -c
 ```
 
-💡使用`-h`来获取所有参数。
+> [!note]
+> 💡使用`-h`选项获取所有参数。
 
 ## How To Use | 如何使用
 
@@ -101,4 +98,6 @@ translate('how are you?', 'en', 'zh', false)
 3. [bropines/Deeplx-vercel](https://github.com/bropines/Deeplx-vercel)
 
 ## Disclaimer | 免责声明
-**本项目并非DeepL官方产品，亦与其无任何从属关系**。请勿依赖本项目，由于基于DeepL网页版开发，因接口及协议变动可能随时罢工。如果您有大量内容需要翻译，请购买DeepL官方翻译API，DeepLXS始终受到DeepL网页版政策限制。
+**本项目并非DeepL官方产品，亦与其无任何从属关系**。
+
+请勿依赖本项目，由于基于DeepL网页版开发，因接口及协议变动可能导致随时罢工。如果您有大量内容需要翻译，请使用DeepL官方翻译API，DeepLXS始终受到DeepL网页版政策限制。
