@@ -6,18 +6,24 @@
 
 DeepLX Serverless是一个基于DeepL网页版且无需(账号)令牌的轻量化NodeJS项目，完全使用JavaScript编写代码，这意味着您无需重新编译或打包，只需要安装依赖包即可开始运行！
 
-## Prerequisites | 准备工作
-- 支持 `Nodejs ≥22` 或 `Docker` 或 `Serverless Function` 的服务器/设备
+**本项目正在尝试支持大多数平台及运行时，目前已通过重构迁移到Hono框架实现这一点，这让我们省了很多事。**  
+过去的代码过于依赖 Node 运行时，这样的代码想要在譬如 Cloudflare Workers 中运行是很困难的，同时由于为了追求轻量化，近期的版本正在逐步移除依赖项改用原生的 Web 标准 API，Hono框架更是助力了这一想法。
+
+## Prerequisites | 前置条件
+借助Hono这个强大的框架，我们的代码得以运行在全平台，因此您无需局限于单一运行时。  
+不过为了部署即启动，还需要做许多的适配工作，虽然已经可以全平台运行了，但目前我们只支持了 `Node`/`Bun`/`Deno`
+
+- JavaScript Runtimes (E.g. `Node`/`Bun`/`Deno`/...)
 - (可选) 拥有[Vercel](https://vercel.com)的账号
 
 ### Deploy | 部署
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
+[![Deploy](https://vercel.com/button) with Vercel](https://vercel.com/new/clone?repository-url=https://github.com/guobao2333/DeepLX-Serverless)
 
 ```bash
 git clone https://github.com/guobao2333/DeepLX-Serverless
 cd DeepLX-Serverless
-npm i
+npm install
 npm run start && npm run test:post
 ```
 
@@ -63,13 +69,15 @@ curl -X POST 'http://localhost:6119/translate' -H 'Content-Type: application/jso
 
 运行`npm test`来测试翻译接口。还可以集成到你的项目中来使用DeepL翻译服务。
 
+`translate.js`是独立模块，其不依赖`server.js`工作。
+
 简单的示例：
 ```javascript
 import { translate } from './src/translate.js';
+
 translate('how are you?', 'en', 'zh', false)
-.then(result => {
-  console.log(result)
-});
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
 ```
 
 ## Star History | 收藏趋势
@@ -83,7 +91,7 @@ translate('how are you?', 'en', 'zh', false)
 </a>
 
 ## Contribute | 贡献
-1. 获取`dev`或`main`分支的代码
+1. 获取`main`分支的代码
 2. 提交你的更改并描述提交内容
 3. 创建一个`Pull Requests`
 
