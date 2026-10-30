@@ -1,15 +1,6 @@
-import express from 'express';
-import { post, get } from '../src/server.js';
+import { createApp, checkCors } from '../src/app.js';
 
-const app = express();
+const raw = process.env.CORS_ORIGIN;
+const corsOrigin = raw === undefined ? false : checkCors(raw);
 
-app.post('/translate', async (req, res) => {
-  // 转发请求
-  const response = await post(req, res);
-
-  // 返回响应
-  const data = await response.json();
-  res.status(response.status).json(data);
-});
-
-app.get('/', async (req, res) => await get(req, res));
+export default createApp({ corsOrigin });

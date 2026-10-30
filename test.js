@@ -1,5 +1,7 @@
 import { translate } from './src/translate.js';
 
 (async () => {
-  await translate('how are you?', 'en', 'zh', true);
+translate('How are you?', 'en', 'zh', false)
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
 })();

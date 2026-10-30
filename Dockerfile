@@ -1,24 +1,24 @@
-# 阶段 1: 依赖安装
-FROM node:lts-alpine AS deps
+# ---- 阶段 1: 依赖 ----
+FROM node:24-alpine AS deps
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --no-audit --no-fund
 
-# 阶段 2: 构建和运行应用
-FROM node:lts-alpine
+# ---- 阶段 2: 运行时 ----
+FROM node:24-alpine
 WORKDIR /app
 
-# 复制依赖
-COPY --from=deps /app/node_modules ./node_modules
+ENV NODE_ENV=production \
+    PORT=6119
 
-# 复制源代码
-COPY . .
+COPY --from=deps --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node src ./src
+COPY --chown=node:node package.json ./
 
-# 暴露应用程序端口
+USER node
 EXPOSE 6119
 
-# 使用非 root 用户运行应用
-USER node
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "fetch('http://127.0.0.1:'+process.env.PORT+'/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
-# 启动应用
-CMD ["npm", "start"]
+CMD ["node", "src/server.js"]
