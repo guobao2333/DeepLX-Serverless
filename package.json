@@ -1,12 +1,11 @@
 {
   "name": "deeplx-serverless",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "DeepL free API for Serverless",
   "type": "module",
   "main": "src/server.js",
   "keywords": [
     "deeplxs",
-    "deeplx",
     "deepl",
     "translate",
     "serverless"
@@ -17,15 +16,16 @@
     "node": ">=22"
   },
   "scripts": {
-    "start": "node --env-file-if-exists=.env src/server.js",
+    "start": "node src/server.js",
+    "start:node": "node src/server.js",
+    "start:bun": "bun run src/server.js",
+    "start:deno": "deno run --allow-net --allow-env --allow-read src/server.js",
+
     "test": "node test.js",
-    "start:sl": "node --env-file-if-exists=.env api/index.js",
     "test:post": "node test_post.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^18.0.3",
-    "express": "^5.1.0",
-    "yargs": "^18.0.0"
+    "hono": "^4.0.0",
+    "@hono/node-server": "^1.0.0"
   }
 }
