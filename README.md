@@ -11,7 +11,7 @@ DeepLX Serverless是一个基于DeepL网页版且无需(账号)令牌的轻量�
 
 ## Prerequisites | 前置条件
 借助Hono这个强大的框架，我们的代码得以运行在全平台，因此您无需局限于单一运行时。  
-不过为了部署即启动，还需要做许多的适配工作，虽然已经可以全平台运行了，但目前我们只支持了 `Node`/`Bun`/`Deno`
+不过为了部署即启动，还需要做许多的适配工作，虽然已经可以全平台运行了，但目前我们只支持/测试了 `Node`/`Bun`/`Deno`
 
 - JavaScript Runtimes (E.g. `Node`/`Bun`/`Deno`/...)
 - (可选) 拥有[Vercel](https://vercel.com)的账号
@@ -23,9 +23,13 @@ DeepLX Serverless是一个基于DeepL网页版且无需(账号)令牌的轻量�
 ```bash
 git clone https://github.com/guobao2333/DeepLX-Serverless
 cd DeepLX-Serverless
-npm install
-npm run start && npm run test:post
 ```
+| 平台 | 安装 | 运行 |
+| :---: | :---: | :---: |
+| Node | `npm install` | `npm run start` |
+| Bun | `bun install` | `bun run start` |
+| Deno | - | `deno task start` |
+
 
 配置可编辑`.env`或者提供启动参数来修改。
 
@@ -50,6 +54,11 @@ docker run -d -p 6119:6119 deeplxs
 比如使用`-c`参数来允许所有跨域请求：
 ```bash
 npm run start -- -c
+```
+
+或者换个端口号：
+```bash
+npm run start -- -p6666
 ```
 
 > [!note]
