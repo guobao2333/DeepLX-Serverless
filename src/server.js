@@ -1,6 +1,7 @@
 import { parseArgs } from 'node:util';
 import { pathToFileURL } from 'node:url';
-import { createApp, checkCors, checkPort } from './app.js';
+import { createApp, checkCors, resolvePort } from './app.js';
+import pkg from '../package.json' with { type: 'json' };
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isMain) {
@@ -11,6 +12,7 @@ if (isMain) {
       port: { type: 'string', short: 'p' },
       cors: { type: 'string', short: 'c' },
       help: { type: 'boolean', short: 'h' },
+      version: { type: 'boolean', short: 'v' },
     },
   }));
   } catch (err) {
@@ -19,13 +21,23 @@ if (isMain) {
     process.exit(1);
   }
 
-  if (values.help) {
-    console.log('Usage: <runtime> src/server.js [-p PORT] [-c CORS_ORIGIN]');
+  if (values.help || values.version) {
+    if (values.help) console.log(
+      ['\nUsage: <runtime> src/server.js [options]',
+        '\nOptions:',
+        '  -p, --port <PORT>     Port to listen on (default: 6119; 0 = random)',
+        '  -c, --cors <ORIGIN>   CORS origin(s); comma-separated or /regex/',
+        '  -v, --version         Print version',
+        '  -h, --help            Print this help info',
+        '\nEnv:',
+        '  PORT, CORS_ORIGIN     Defaults for -p and -c',
+      ].join('\n'));
+    if (values.version) console.log(`\n\x1b[90m${pkg.name}@\x1b[35m${pkg.version}\x1b[0m`);
     process.exit(0);
   }
 
-  const rawPort = values.port ?? process.env.PORT;
-  const port = checkPort(rawPort != null && String(rawPort).trim() !== '' ? Number(rawPort) : 6119);
+  let port = String(values.port ?? process.env.PORT ?? '').trim();
+  port = resolvePort(port === '' ? 6119 : Number(port));
   const corsOrigin = checkCors(values.cors ?? process.env.CORS_ORIGIN ?? false);
   const app = createApp({ corsOrigin });
 
@@ -36,20 +48,20 @@ if (isMain) {
     const shutdown = async () => { await server.stop(); process.exit(0); };
     process.on('SIGTERM', shutdown);
     process.on('SIGINT', shutdown);
-    console.log(`\x1b[32m[Bun]\x1b[0m listening on http://localhost:${actualPort}`);
-  
+    console.log(`\x1b[32m[Bun]\x1b[0m listening on \x1b[35mhttp://localhost:${actualPort}\x1b[0m`);
+
   } else if (typeof Deno !== 'undefined') {
     const server = Deno.serve({ port }, app.fetch);
     const actualPort = server.addr.port;
     const shutdown = async () => { await server.shutdown(); Deno.exit(0); };
     Deno.addSignalListener('SIGTERM', shutdown);
     Deno.addSignalListener('SIGINT', shutdown);
-    console.log(`\x1b[32m[Deno]\x1b[0m listening on http://localhost:${actualPort}`);
-  
+    console.log(`\x1b[32m[Deno]\x1b[0m listening on \x1b[35mhttp://localhost:${actualPort}\x1b[0m`);
+
   } else {
     const { serve } = await import('@hono/node-server');
     const server = serve({ port, fetch: app.fetch }, (info) => {
-      console.log(`\x1b[32m[Node]\x1b[0m listening on http://localhost:${info.port}`);
+      console.log(`\x1b[32m[Node]\x1b[0m listening on \x1b[35mhttp://localhost:${info.port}\x1b[0m`);
     });
     const shutdown = async () => server.close(() => process.exit(0));
     process.on('SIGTERM', shutdown);

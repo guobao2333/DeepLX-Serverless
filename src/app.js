@@ -5,8 +5,8 @@ import { translate } from './translate.js';
 
 const useColor = process.stdout.isTTY && process.env.NO_COLOR === undefined;
 const C = useColor
-  ? { reset: '\x1b[0m', red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', cyan: '\x1b[36m', gray: '\x1b[90m'}
-  : { reset: '', red: '', green: '', yellow: '', cyan: '', gray: ''};
+  ? { reset: '\x1b[0m', red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', blue: '\x1b[34m', cyan: '\x1b[36m', gray: '\x1b[90m'}
+  : { reset: '', red: '', green: '', yellow: '', blue: '', cyan: '', gray: ''};
 
 export function createApp({ corsOrigin = false } = {}) {
   const app = new Hono();
@@ -147,9 +147,10 @@ export function createApp({ corsOrigin = false } = {}) {
 }
 
 
-export function checkPort(arg) {
-    if (typeof arg === 'number' && !isNaN(arg) && Number.isInteger(arg) && arg >= 0 && arg <= 65535) return arg;
-    console.warn(`${C.yellow}WARNING:${C.reset} port should be a number >= 0 and < 65536.\nUsed default value instead: 6119\n`);
+export function resolvePort(arg) {
+    if (arg === 0) console.log(`${C.blue}NOTE:${C.reset} When the port is 0, it will be randomly assigned.`);
+    if (typeof arg === 'number' && Number.isInteger(arg) && arg >= 0 && arg <= 65535 && !Object.is(arg, -0)) return arg;
+    else console.warn(`${C.yellow}WARNING:${C.reset} port should be a number >= 0 and < 65536.\nUsed default value instead: 6119\n`);
     return 6119;
 }
 
