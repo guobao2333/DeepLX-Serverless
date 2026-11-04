@@ -24,7 +24,8 @@ if (isMain) {
     process.exit(0);
   }
 
-  const port = checkPort((values.port ?? process.env.PORT) != null && rawPort.trim() !== '' ? Number(rawPort) : 6119);
+  const rawPort = values.port ?? process.env.PORT;
+  const port = checkPort(rawPort != null && String(rawPort).trim() !== '' ? Number(rawPort) : 6119);
   const corsOrigin = checkCors(values.cors ?? process.env.CORS_ORIGIN ?? false);
   const app = createApp({ corsOrigin });
 

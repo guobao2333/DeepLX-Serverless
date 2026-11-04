@@ -97,12 +97,21 @@ async function translate(text, sourceLang, targetLang, printResult) {
     throw makeError('UpstreamError', 'Response parse failure: invalid JSON');
   }
 
-  return parseResponse(body, normalizedSource, normalizedTarget, printResult);
+  return parseResponse(body, {
+    normalizedSource, normalizedTarget,
+    rawSource: sourceLang, rawTarget: targetLang,
+    printResult,
+  });
 }
 
 
-/** 解析 oneshot 返回数据 */
-function parseResponse(body, sourceLang, targetLang, printResult) {
+/**
+ * 解析 oneshot 返回数据
+ *
+ * 响应里的 source_lang / target_lang 回显调用方传入的写法（与 v3.x 一致），
+ * 便于已接入的客户端按原样比对，不随内部标准化结果变化。
+ */
+function parseResponse(body, { normalizedSource, normalizedTarget, rawSource, rawTarget, printResult }) {
   if (printResult) console.log('[RESP]', JSON.stringify(body));
 
   const translations = body?.translations;
@@ -123,11 +132,10 @@ function parseResponse(body, sourceLang, targetLang, printResult) {
     id: Math.floor(Math.random() * 1000000),
     method: 'Free',
     data: translatedText,
-    source_lang: (sourceLang == 'auto'
-      ? detectedLang
-      : sourceLang
-    ).toLowerCase(),
-    target_lang: targetLang.toLowerCase(),
+    source_lang: normalizedSource === 'auto'
+      ? detectedLang.toUpperCase()
+      : (rawSource ?? normalizedSource),
+    target_lang: rawTarget ?? normalizedTarget,
     alternatives: [] // oneshot 不提供备选
   };
 
@@ -150,6 +158,28 @@ function makeError(name, message, { code, cause } = {}) {
 const TARGET_LANG_SET = new Set(TARGET_LANGUAGES.map(l => l.toUpperCase()));
 
 /**
+ * oneshot 接口对语言码大小写敏感：
+ * - 基础语言码必须小写（`ZH` / `DE` 会被原样回显，HTTP 仍为 200）
+ * - 区域变体保留规范大小写（`zh-Hans`、`en-US`、`pt-BR`）
+ * - 裸 `zh` 不是合法目标语言，必须带上脚本（`zh-Hans` / `zh-Hant`）
+ */
+const DEEPL_REGION_CODES = {
+  'ZH-HANS': 'zh-Hans',
+  'ZH-HANT': 'zh-Hant',
+  'EN-US': 'en-US',
+  'EN-GB': 'en-GB',
+  'PT-BR': 'pt-BR',
+  'PT-PT': 'pt-PT',
+};
+
+/** 把标准化后的语言码转成 oneshot 要求的写法 */
+function toDeepLCode(upper) {
+  if (DEEPL_REGION_CODES[upper]) return DEEPL_REGION_CODES[upper];
+  if (upper === 'ZH') return 'zh-Hans';
+  return upper.toLowerCase();
+}
+
+/**
  * 目标语言标准化
  * - 精确匹配 TARGET_LANGUAGES（忽略大小写）
  * - 中文变体 → 简繁；英文变体 → US/GB；葡语变体 → BR/PT
@@ -162,25 +192,25 @@ function normalizeTargetLanguage(input) {
   if (!trimmed || trimmed.toLowerCase() === 'auto') return null;
 
   const upper = trimmed.toUpperCase();
-  if (TARGET_LANG_SET.has(upper)) return upper;
+  if (TARGET_LANG_SET.has(upper)) return toDeepLCode(upper);
 
   const [base, ...rest] = upper.split('-');
   const region = rest.join('-');
   if (base === 'ZH') {
-    if (['TW', 'HK', 'MO', 'HANT'].includes(region)) return 'ZH-HANT';
-    if (['CN', 'SG', 'HANS'].includes(region)) return 'ZH-HANS';
-    return 'ZH';
+    if (['TW', 'HK', 'MO', 'HANT'].includes(region)) return toDeepLCode('ZH-HANT');
+    if (['CN', 'SG', 'HANS'].includes(region)) return toDeepLCode('ZH-HANS');
+    return toDeepLCode('ZH');
   }
 
   if (base === 'EN') {
-    if (region === 'GB') return 'EN-GB';
-    if (region === 'US') return 'EN-US';
-    return 'EN';
+    if (region === 'GB') return toDeepLCode('EN-GB');
+    if (region === 'US') return toDeepLCode('EN-US');
+    return toDeepLCode('EN');
   }
 
-  if (base === 'PT') return region === 'PT' ? 'PT-PT' : 'PT-BR';
+  if (base === 'PT') return toDeepLCode(region === 'PT' ? 'PT-PT' : 'PT-BR');
 
-  if (TARGET_LANG_SET.has(base)) return base;
+  if (TARGET_LANG_SET.has(base)) return toDeepLCode(base);
 
   return null;
 }
@@ -188,7 +218,7 @@ function normalizeTargetLanguage(input) {
 /**
  * 源语言标准化
  * - 空 → 'auto'
- * - 受支持的语言（含区域变体）→ 大写基础代码
+ * - 受支持的语言（含区域变体）→ oneshot 要求的小写代码
  * - 无法识别 → null
  */
 function normalizeSourceLanguage(input) {
@@ -197,10 +227,10 @@ function normalizeSourceLanguage(input) {
   if (!trimmed || trimmed.toLowerCase() === 'auto') return 'auto';
 
   const upper = trimmed.toUpperCase();
-  if (TARGET_LANG_SET.has(upper)) return upper;
+  if (TARGET_LANG_SET.has(upper)) return toDeepLCode(upper);
 
   const base = upper.split('-')[0];
-  if (TARGET_LANG_SET.has(base)) return base;
+  if (TARGET_LANG_SET.has(base)) return toDeepLCode(base);
 
   return null;
 }
