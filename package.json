@@ -1,6 +1,6 @@
 {
   "name": "deeplx-serverless",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "DeepL free API for Serverless",
   "type": "module",
   "main": "src/server.js",
@@ -16,8 +16,8 @@
     "node": ">=22"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "start:node": "node src/server.js",
+    "start": "node --env-file=.env src/server.js",
+    "start:node": "node --env-file=.env src/server.js",
     "start:bun": "bun run src/server.js",
     "start:deno": "deno run --allow-net --allow-env --allow-read src/server.js",
 
