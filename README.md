@@ -26,9 +26,9 @@ cd DeepLX-Serverless
 ```
 | 平台 | 安装 | 运行 |
 | :---: | :---: | :---: |
-| Node | `npm install` | `npm run start` |
-| Bun | `bun install` | `bun run start` |
-| Deno | - | `deno task start` |
+| Node | `npm install` | `npm run start:node` |
+| Bun | `bun install` | `bun run start:bun` |
+| Deno | - | `deno task start:deno` |
 
 
 配置可编辑`.env`或者提供启动参数来修改。
