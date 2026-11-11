@@ -3,13 +3,23 @@ import { cors } from 'hono/cors';
 import { bodyLimit } from 'hono/body-limit';
 import { translate } from './translate.js';
 
-const useColor = process.stdout.isTTY && process.env.NO_COLOR === undefined;
-const C = useColor
-  ? { reset: '\x1b[0m', red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', blue: '\x1b[34m', cyan: '\x1b[36m', gray: '\x1b[90m'}
-  : { reset: '', red: '', green: '', yellow: '', blue: '', cyan: '', gray: ''};
+export function makeColors(useColor) {
+  return useColor
+    ? { reset: '\x1b[0m', red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m',
+        blue: '\x1b[34m', cyan: '\x1b[36m', gray: '\x1b[90m' }
+    : { reset: '', red: '', green: '', yellow: '', blue: '', cyan: '', gray: '' };
+}
 
-export function createApp({ corsOrigin = false } = {}) {
+const PLAIN = makeColors(false);
+
+export function createApp({
+  corsOrigin = false,
+  useColor = false,
+  debugPrint = false,
+  rateLimit = null, // { windowMs, max }，null = 不启用限流
+} = {}) {
   const app = new Hono();
+  const C = makeColors(useColor);
 
   const honoOrigin = toHonoCors(corsOrigin);
   if (honoOrigin !== undefined) {
@@ -28,13 +38,13 @@ export function createApp({ corsOrigin = false } = {}) {
   }
 
   function logLine(level, status, method, path, ms, err) {
-    const [tag, color, sink] =
+    const [tag, tColor, sink] =
       level === 'ERROR' ? ['ERROR', C.red, console.error] :
       level === 'WARN' ? ['WARN', C.yellow, console.warn] : ['INFO', C.green, console.log];
     const sColor = statusColor(status);
     const msColor = ms >= 2000 ? C.red : ms >= 1000 ? C.yellow : C.green;
     const errPart = err ? `${C.red}${err.message}${C.reset}` : '';
-    let out = `${color}[${tag}]${C.reset} ${C.gray}${new Date().toISOString()}${C.reset} ` +
+    let out = `${tColor}[${tag}]${C.reset} ${C.gray}${new Date().toISOString()}${C.reset} ` +
       `| ${C.cyan}${method}${C.reset} ${path} | ${sColor}${status}${C.reset} ${errPart} | ${msColor}${ms}ms${C.reset}`;
 
     if (err) {
@@ -68,8 +78,29 @@ export function createApp({ corsOrigin = false } = {}) {
     }
   });
 
-  app.get('/', (c) => c.json({
-    code: 200,
+  // 简易限流
+  if (rateLimit) {
+    const hits = new Map();
+    app.use('*', async (c, next) => {
+      const ip = c.req.header('x-forwarded-for')?.split(',')[0]?.trim()
+        || c.req.header('x-real-ip')
+        || 'unknown';
+      const now = Date.now();
+      let entry = hits.get(ip);
+      if (!entry || now > entry.reset) {
+        entry = { count: 0, reset: now + rateLimit.windowMs };
+        hits.set(ip, entry);
+      }
+      entry.count++;
+      if (entry.count > rateLimit.max) {
+        c.header('Retry-After', String(Math.ceil((entry.reset - now) / 1000)));
+        return c.json({ code: 429, message: 'Too Many Requests' }, 429);
+      }
+      await next();
+    });
+  }
+
+  app.get('/', (c) => c.json({ code: 200,
     message: "Welcome to the DeepL Free API. Please POST to '/translate'. " +
              "Visit 'https://github.com/guobao2333/DeepLX-Serverless' for more information."
   }));
@@ -78,8 +109,7 @@ export function createApp({ corsOrigin = false } = {}) {
   bodyLimit({
     maxSize: 64 * 1024,
     onError: (c) => c.json({ code: 413, message: 'Payload Too Large' }, 413),
-  }),
-  async (c) => {
+  }), async (c) => {
     let body;
     try { body = await c.req.json(); }
     catch { return c.json({ code: 400, message: 'Bad Request' }, 400); }
@@ -88,7 +118,7 @@ export function createApp({ corsOrigin = false } = {}) {
       return c.json({ code: 400, message: 'Bad Request' }, 400);
     }
 
-    let { text, source_lang, target_lang } = body;
+    const { text, source_lang, target_lang } = body;
     if (typeof text !== 'string' || !text.trim() ||
         (source_lang != null && typeof source_lang !== 'string') ||
         typeof target_lang !== 'string') {
@@ -96,14 +126,11 @@ export function createApp({ corsOrigin = false } = {}) {
     }
 
     try {
-      const DEBUG = process.env.DEBUG_TRANSLATE === '1';
-      const result = await translate(text, source_lang, target_lang, DEBUG);
+      const result = await translate(text, source_lang, target_lang, debugPrint);
 
       if (result.code === 400) return c.json(result, 400);
       if (result.code === 429) {
-        if (result.retry_after) {
-          c.header('Retry-After', result.retry_after);
-        }
+        if (result.retry_after) c.header('Retry-After', result.retry_after);
         return c.json(result, 429);
       }
       if (!result || !result.data) {
@@ -128,10 +155,7 @@ export function createApp({ corsOrigin = false } = {}) {
         return c.json({ code: 502, message: 'Upstream unreachable' }, 502);
       }
       if (err.name === 'UpstreamError') {
-        return c.json({
-          code: 502,
-          message: err.expose ? err.message : 'Upstream rejected the request',
-        }, 502);
+        return c.json({ code: 502, message: err.expose ? err.message : 'Upstream rejected the request'}, 502);
       }
       return c.json({ code: 500, message: 'Internal Server Error' }, 500);
     }
@@ -147,11 +171,11 @@ export function createApp({ corsOrigin = false } = {}) {
 }
 
 
-export function resolvePort(arg) {
-    if (arg === 0) console.log(`${C.blue}NOTE:${C.reset} When the port is 0, it will be randomly assigned.`);
-    if (typeof arg === 'number' && Number.isInteger(arg) && arg >= 0 && arg <= 65535 && !Object.is(arg, -0)) return arg;
-    else console.warn(`${C.yellow}WARNING:${C.reset} port should be a number >= 0 and < 65536.\nUsed default value instead: 6119\n`);
-    return 6119;
+export function resolvePort(arg, C = PLAIN) {
+  if (arg === 0) console.log(`${C.blue}NOTE:${C.reset} When the port is 0, it will be randomly assigned.`);
+  if (typeof arg === 'number' && Number.isInteger(arg) && arg >= 0 && arg <= 65535 && !Object.is(arg, -0)) return arg;
+  else console.warn(`${C.yellow}WARNING:${C.reset} port should be a number >= 0 and < 65536.\nUsed default value instead: 6119\n`);
+  return 6119;
 }
 
 /**
@@ -182,9 +206,9 @@ export function checkCors(arg) {
     try {
       return new RegExp(m[1], m[2]);
     } catch (e) {
-      let err =`ParamTypeError: invalid regex '${s}': ${e.message}`
-      console.error(err);
-      throw new Error(err);
+      const msg = `ParamTypeError: invalid regex '${s}': ${e.message}`;
+      console.error(msg);
+      throw new Error(msg);
     }
   }
 
