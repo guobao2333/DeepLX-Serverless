@@ -1,6 +1,6 @@
 import { parseArgs } from 'node:util';
 import { pathToFileURL } from 'node:url';
-import { createApp, checkCors, resolvePort } from './app.js';
+import { createApp, checkCors, resolvePort, makeColors } from './app.js';
 import pkg from '../package.json' with { type: 'json' };
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
@@ -36,10 +36,22 @@ if (isMain) {
     process.exit(0);
   }
 
+  const useColor = (process.stdout.isTTY ?? false) && process.env.NO_COLOR === undefined;
+  const color = makeColors(useColor);
+
   let port = String(values.port ?? process.env.PORT ?? '').trim();
-  port = resolvePort(port === '' ? 6119 : Number(port));
+  port = resolvePort(port === '' ? 6119 : Number(port), color);
   const corsOrigin = checkCors(values.cors ?? process.env.CORS_ORIGIN ?? false);
-  const app = createApp({ corsOrigin });
+
+  const debugPrint = process.env.DEBUG_PRINT === '1';
+  const rateLimit = process.env.RATE_LIMIT_MAX
+    ? {
+        windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS) || 60000,
+        max: Number(process.env.RATE_LIMIT_MAX),
+      }
+    : null;
+
+  const app = createApp({ corsOrigin, useColor, debugPrint, rateLimit });
 
   // 环境运行时判断
   if (typeof Bun !== 'undefined') {
