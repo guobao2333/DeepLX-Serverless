@@ -116,7 +116,12 @@ async function translate(text, sourceLang, targetLang, printResult) {
   }
 
   let body;
-  try { body = await response.json(); } catch {
+  try { body = await response.json(); } catch (err) {
+    if (err.name === 'TimeoutError' || err.name === 'AbortError') {
+      throw makeError('TranslateError', 'Upstream timed out while reading response', {
+        code: 'ETIMEDOUT',
+      });
+    }
     throw makeError('UpstreamError', 'Response parse failure: invalid JSON');
   }
 
@@ -156,8 +161,9 @@ function parseResponse(body, echoLang, printResult) {
   const translatedText = first?.text;
   const detectedLang = first?.detected_source_language || '';
 
-  if (!translatedText) {
-    throw makeError('UpstreamError', 'Response parse failure: empty translation');
+  const translatedText = first?.text;
+  if (typeof translatedText !== 'string' || translatedText.length === 0) {
+    throw makeError('UpstreamError', 'Response parse failure: text is not a non-empty string');
   }
 
   const result = {
