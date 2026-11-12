@@ -161,7 +161,6 @@ function parseResponse(body, echoLang, printResult) {
   const translatedText = first?.text;
   const detectedLang = first?.detected_source_language || '';
 
-  const translatedText = first?.text;
   if (typeof translatedText !== 'string' || translatedText.length === 0) {
     throw makeError('UpstreamError', 'Response parse failure: text is not a non-empty string');
   }
