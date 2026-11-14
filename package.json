@@ -25,7 +25,7 @@
     "test:post": "node test_post.js"
   },
   "dependencies": {
-    "hono": "^4.0.0",
+    "hono": "^4.13.17",
     "@hono/node-server": "^2.1.5"
   }
 }
